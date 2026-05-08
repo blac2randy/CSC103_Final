@@ -3,7 +3,7 @@
 #include "hitpointtype.hpp"
 using namespace std;
 
-class Health {
+class hp {
 public:
     // reuturns true if set successfully
     // Health pool setup, Health crash prevention
@@ -27,7 +27,7 @@ public:
     hptype getCurrentHP () {
         return CurrentHP;
     }
-    
+
     void takeDamage(hptype damage) {
         if (damage > CurrentHP){
         CurrentHP = 0;
@@ -44,7 +44,14 @@ public:
         CurrentHP += amount;
     }
 
-   
+ 
+   hp() { CurrentHP = 1, MaxHP = 1; }
+   hp(hptype cHP, hptype mHP ) {
+        CurrentHP = cHP;
+        MaxHP = mHP;
+        if (CurrentHP > MaxHP )
+        CurrentHP = MaxHP;
+    }
 
 private:
     hptype ShieldHP;
