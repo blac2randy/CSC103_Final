@@ -1,0 +1,5 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '/Users/josiahw/CSC103_Final/CSC103_Final/main'
+relocations:     []
+...
