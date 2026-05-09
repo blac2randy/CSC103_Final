@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include "PlayerClasses.hpp"
+#include "Monster.hpp"
 using namespace std;
 
 string openingScene(){
@@ -81,6 +82,7 @@ int main() {
     Cleric cler1;
     Rogue rog1;
 
+    //Player Choice
     string playerName;
     int choice;
     playerName = openingScene();
@@ -107,6 +109,59 @@ int main() {
         Rogue player;
         cout << "\n" << playerName << " remembers the path of the Rogue.\n";
         cout << "Prepare for battle!\n";
+
+    }
+
+    Monster goblin(
+        "Goblin Scout",
+        "A small goblin carrying a rusty dagger.",
+    
+        12,  // HP
+        2,   // Strength
+        0,   // Intellect
+        15,  // XP reward
+        5    // Gold reward
+    );
+
+    cout << "=== MONSTER TEST ===\n\n";
+    cout << "Name: " << goblin.getName() << endl;
+    cout << "Description: " << goblin.getDescription() << endl;
+    cout << "HP: " << goblin.getCurrentHP() << "/" << goblin.getMaxHP() << endl;
+    cout << "Strength: " << goblin.getStrength() << endl;
+    cout << "Intellect: " << goblin.getIntellect() << endl;
+    cout << "XP Reward: " << goblin.getXPReward() << endl;
+    cout << "Gold Reward: " << goblin.getGoldReward() << endl;
+    
+    cout << "\nGoblin takes 5 damage...\n";
+
+    goblin.takeDamage(5);
+
+    cout << "HP after damage: " << goblin.getCurrentHP()
+         << "/" << goblin.getMaxHP() << endl;
+
+    if (goblin.isDefeated()) {
+        cout << "Goblin is defeated.\n";
+
+    }
+
+    else {
+        cout << "Goblin is still alive.\n";
+
+    }
+
+    cout << "\nGoblin takes 20 damage...\n";
+    goblin.takeDamage(20);
+
+    cout << "HP after damage: " << goblin.getCurrentHP()
+         << "/" << goblin.getMaxHP() << endl;
+
+    if (goblin.isDefeated()) {
+        cout << "Goblin is defeated.\n";
+
+    }
+
+    else {
+        cout << "Goblin is still alive.\n";
 
     }
 
