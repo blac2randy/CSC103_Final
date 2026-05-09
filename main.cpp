@@ -23,7 +23,7 @@ string openingScene(){
     cout << "\"It's been getting dangerous lately with frequent monster attacks.\"\n\n";
 
     cout << "The carriage suddenly comes to a halt.\n";
-    cout << "You turn your head toward the road and see a group of goblins blocking the path.\n\n";
+    cout << "You turn your head toward the road and see a blocking the path.\n\n";
     cout << "\""<< playerName << ", you know how to fight, right?\"\n\n";
 
     cout << "Your memory is still clouded, but pieces of your past begin to return.\n";
