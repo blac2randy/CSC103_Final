@@ -53,6 +53,14 @@ public:
         CurrentHP = MaxHP;
     }
 
+    void increaseMaxHP(hptype amount) {
+    MaxHP += amount;
+    CurrentHP += amount;
+
+    if (CurrentHP > MaxHP) {
+        CurrentHP = MaxHP;
+    }
+}
 private:
     hptype ShieldHP;
     hptype CurrentHP;

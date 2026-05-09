@@ -14,7 +14,13 @@ public:
         Strength = s;
         Intellect = i;
     }
-    
+    void increaseStrength(stattype amount) {
+    Strength += amount;
+    }
+
+    void increaseIntellect(stattype amount) {
+    Intellect += amount;
+    }
     stattype getStrength() { return Strength; }
     stattype getIntellect() { return Intellect; }
 
