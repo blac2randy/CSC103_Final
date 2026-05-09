@@ -132,38 +132,6 @@ int main() {
     cout << "XP Reward: " << goblin.getXPReward() << endl;
     cout << "Gold Reward: " << goblin.getGoldReward() << endl;
     
-    cout << "\nGoblin takes 5 damage...\n";
-
-    goblin.takeDamage(5);
-
-    cout << "HP after damage: " << goblin.getCurrentHP()
-         << "/" << goblin.getMaxHP() << endl;
-
-    if (goblin.isDefeated()) {
-        cout << "Goblin is defeated.\n";
-
-    }
-
-    else {
-        cout << "Goblin is still alive.\n";
-
-    }
-
-    cout << "\nGoblin takes 20 damage...\n";
-    goblin.takeDamage(20);
-
-    cout << "HP after damage: " << goblin.getCurrentHP()
-         << "/" << goblin.getMaxHP() << endl;
-
-    if (goblin.isDefeated()) {
-        cout << "Goblin is defeated.\n";
-
-    }
-
-    else {
-        cout << "Goblin is still alive.\n";
-
-    }
 
     return 0;
 
