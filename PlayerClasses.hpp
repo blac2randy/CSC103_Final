@@ -4,6 +4,8 @@
 #include <vector>
 #include "hp.hpp"
 #include "statsblock.hpp"
+using namespace std;
+
 
 // =============================
 // Warrior Class
@@ -292,7 +294,7 @@ public:
     }
     void levelUp() {
         level++;
-        increaseMaxHP(8);
+        increaseMaxHP(6);
         increaseStrength(1);
         increaseIntellect(2);
     }
@@ -342,48 +344,27 @@ string getItem(int index) {
             }
         }
     }
-bool useItem(int itemChoice) {
-    int index = itemChoice - 1;
-
-    if (index < 0 || index >= inventory.size()) {
-        cout << "Invalid item choice.\n";
-        return false;
-    }
-
-    string item = inventory[index];
-
-        if (item == "Health Potion") {
-            heal(10);
-            cout << "You used a Health Potion and restored 10 HP.\n";
-
-            inventory.erase(inventory.begin() + index);
-            return true;
-        }
-
-        cout << item << " cannot be used right now.\n";
-        return false;
-    }
+    
     bool useItem(int itemChoice) {
         int index = itemChoice - 1;
 
-        if (index < 0 || index >= inventory.size()) {
+        if (index < 0 || index >= static_cast<int>(inventory.size())) {
             cout << "Invalid item choice.\n";
             return false;
         }
-
         string item = inventory[index];
 
         if (item == "Health Potion") {
             heal(10);
             cout << "You used a Health Potion and restored 10 HP.\n";
-
             inventory.erase(inventory.begin() + index);
             return true;
-        }
 
+        }
         cout << item << " cannot be used right now.\n";
         return false;
-    } 
+
+    }
 };
 
 // =============================

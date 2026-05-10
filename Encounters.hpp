@@ -196,7 +196,7 @@ Monster createFirstGoblin() {
         12,
         2,
         0,
-        30,
+        15,
         5
     );
 }
