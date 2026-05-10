@@ -101,6 +101,27 @@ string getItem(int index) {
             }
         }
     }
+ bool useItem(int itemChoice) {
+        int index = itemChoice - 1;
+
+        if (index < 0 || index >= inventory.size()) {
+            cout << "Invalid item choice.\n";
+            return false;
+        }
+
+        string item = inventory[index];
+
+        if (item == "Health Potion") {
+            heal(10);
+            cout << "You used a Health Potion and restored 10 HP.\n";
+
+            inventory.erase(inventory.begin() + index);
+            return true;
+        }
+
+        cout << item << " cannot be used right now.\n";
+        return false;
+    }
 };
 
 // =============================
@@ -199,6 +220,27 @@ string getItem(int index) {
                 cout << i + 1 << ". " << inventory[i] << endl;
             }
         }
+    }
+    bool useItem(int itemChoice) {
+        int index = itemChoice - 1;
+
+        if (index < 0 || index >= inventory.size()) {
+            cout << "Invalid item choice.\n";
+            return false;
+        }
+
+        string item = inventory[index];
+
+        if (item == "Health Potion") {
+            heal(10);
+            cout << "You used a Health Potion and restored 10 HP.\n";
+
+            inventory.erase(inventory.begin() + index);
+            return true;
+        }
+
+        cout << item << " cannot be used right now.\n";
+        return false;
     }
 };
 
@@ -300,6 +342,48 @@ string getItem(int index) {
             }
         }
     }
+bool useItem(int itemChoice) {
+    int index = itemChoice - 1;
+
+    if (index < 0 || index >= inventory.size()) {
+        cout << "Invalid item choice.\n";
+        return false;
+    }
+
+    string item = inventory[index];
+
+        if (item == "Health Potion") {
+            heal(10);
+            cout << "You used a Health Potion and restored 10 HP.\n";
+
+            inventory.erase(inventory.begin() + index);
+            return true;
+        }
+
+        cout << item << " cannot be used right now.\n";
+        return false;
+    }
+    bool useItem(int itemChoice) {
+        int index = itemChoice - 1;
+
+        if (index < 0 || index >= inventory.size()) {
+            cout << "Invalid item choice.\n";
+            return false;
+        }
+
+        string item = inventory[index];
+
+        if (item == "Health Potion") {
+            heal(10);
+            cout << "You used a Health Potion and restored 10 HP.\n";
+
+            inventory.erase(inventory.begin() + index);
+            return true;
+        }
+
+        cout << item << " cannot be used right now.\n";
+        return false;
+    } 
 };
 
 // =============================
@@ -399,5 +483,26 @@ string getItem(int index) {
                 cout << i + 1 << ". " << inventory[i] << endl;
             }
         }
+    }
+    bool useItem(int itemChoice) {
+        int index = itemChoice - 1;
+
+        if (index < 0 || index >= inventory.size()) {
+            cout << "Invalid item choice.\n";
+            return false;
+        }
+
+        string item = inventory[index];
+
+        if (item == "Health Potion") {
+            heal(10);
+            cout << "You used a Health Potion and restored 10 HP.\n";
+
+            inventory.erase(inventory.begin() + index);
+            return true;
+        }
+
+        cout << item << " cannot be used right now.\n";
+        return false;
     }
 };

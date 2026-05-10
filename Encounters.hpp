@@ -51,11 +51,10 @@ void showBattleStats(PlayerType& player, string className) {
     cout << "Intellect: " << player.getIntellect() << endl;
 
 }
-//inventory in progress
-void showBattleInventory() {
-    cout << "\n===== INVENTORY =====\n";
-    cout << "Inventory system coming soon.\n";
-    cout << "For now, no usable items are connected yet.\n";
+//inventory display
+template <typename PlayerType>
+void showBattleInventory(PlayerType& player) {
+    player.showInventory();
 }
 
 template <typename PlayerType>
@@ -80,9 +79,11 @@ void battle(PlayerType& player, Monster enemy, vector<Skill> playerSkills, strin
         cout << "1. Use Skill\n";
         cout << "2. View Stats\n";
         cout << "3. View Inventory\n";
-        cout << "4. Observe Surroundings\n";
+        cout << "4. Use Item\n";
+        cout << "5. Observe Surroundings\n";
         cout << "Enter choice: ";
 
+    //Choice Logic
         int choice;
         cin >> choice;
 
@@ -120,14 +121,33 @@ void battle(PlayerType& player, Monster enemy, vector<Skill> playerSkills, strin
         else if (choice == 2) {
             showBattleStats(player, className);
         }
+
         else if (choice == 3) {
-            showBattleInventory();
+            showBattleInventory(player);
         }
+
         else if (choice == 4) {
+
+            showBattleInventory(player);
+            cout << "Choose an item to use: ";
+            int itemChoice;
+            cin >> itemChoice;
+            bool usedItem = player.useItem(itemChoice);
+
+            if (usedItem) {
+                cout << "Current HP: " << player.getCurrentHP()
+                << "/" << player.getMaxHP() << endl;
+                turnPassed = true;
+            }
+            else {
+                cout << "No item was used.\n";
+            }
+        }
+
+        else if (choice == 5) {
             cout << "\nYou scan the road carefully.\n";
             cout << "There are more goblins nearby, but only one is attacking first.\n";
             cout << "Able stays near the carriage, waiting for an opening.\n";
-
             turnPassed = true;
         }
         else {
@@ -158,8 +178,9 @@ void battle(PlayerType& player, Monster enemy, vector<Skill> playerSkills, strin
         cout << "\nYou gained " << enemy.getXPReward() << " XP.\n";
         player.gainXP(enemy.getXPReward());
 
-        cout << "You found " << enemy.getGoldReward() << " gold.\n";
-        cout << "Gold system will be connected later.\n";
+       cout << "You found " << enemy.getGoldReward() << " gold.\n";
+       player.gainGold(enemy.getGoldReward());
+       cout << "Current Gold: " << player.getGold() << endl;
     }
     else {
         cout << "\n===== DEFEAT =====\n";
