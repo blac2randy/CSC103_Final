@@ -1,4 +1,7 @@
 #pragma once
+#include <iostream>
+#include <string>
+#include <vector>
 #include "hp.hpp"
 #include "statsblock.hpp"
 
@@ -12,6 +15,8 @@ private:
     int xp;
     int xpToLevel;
     int maxLevel;
+    vector<string> inventory;
+    int gold;
 
 public:
     static const hptype HPGROWTH = (hptype)19u;
@@ -23,6 +28,8 @@ public:
         xp = 0;
         xpToLevel = 30;
         maxLevel = 8;
+        gold = 0;
+        inventory.push_back("Health Potion");
     }
     int getLevel() {
         return level;
@@ -49,6 +56,51 @@ public:
         increaseMaxHP(8);
         increaseStrength(2);
     }
+    int getGold() {
+    return gold;
+}
+
+void gainGold(int amount) {
+    gold += amount;
+}
+
+bool spendGold(int amount) {
+    if (gold >= amount) {
+        gold -= amount;
+        return true;
+    }
+
+    return false;
+}
+
+void addItem(string itemName) {
+    inventory.push_back(itemName);
+}
+
+int getInventorySize() {
+    return inventory.size();
+}
+
+string getItem(int index) {
+    if (index >= 0 && index < inventory.size()) {
+        return inventory[index];
+    }
+
+    return "Invalid Item";
+}
+    void showInventory() {
+        cout << "\n===== INVENTORY =====\n";
+        cout << "Gold: " << gold << endl;
+
+        if (inventory.size() == 0) {
+            cout << "Your inventory is empty.\n";
+        }
+        else {
+            for (int i = 0; i < inventory.size(); i++) {
+                cout << i + 1 << ". " << inventory[i] << endl;
+            }
+        }
+    }
 };
 
 // =============================
@@ -61,6 +113,9 @@ private:
     int xp;
     int xpToLevel;
     int maxLevel;
+    vector<string> inventory;
+    int gold;
+
 public:
     static const hptype HPGROWTH = (hptype)9u;
     static const stattype BASESTR = (stattype)1u;
@@ -71,6 +126,8 @@ public:
         xp = 0;
         xpToLevel = 30;
         maxLevel = 8;
+        gold = 0;
+        inventory.push_back("Health Potion");
     }
     int getLevel() {
         return level;
@@ -97,6 +154,52 @@ public:
         increaseMaxHP(4);
         increaseIntellect(2);
     }
+    int getGold() {
+    return gold;
+}
+
+void gainGold(int amount) {
+    gold += amount;
+}
+
+bool spendGold(int amount) {
+    if (gold >= amount) {
+        gold -= amount;
+        return true;
+    }
+
+    return false;
+}
+
+void addItem(string itemName) {
+    inventory.push_back(itemName);
+}
+
+int getInventorySize() {
+    return inventory.size();
+}
+
+string getItem(int index) {
+    if (index >= 0 && index < inventory.size()) {
+        return inventory[index];
+    }
+
+    return "Invalid Item";
+}
+
+    void showInventory() {
+        cout << "\n===== INVENTORY =====\n";
+        cout << "Gold: " << gold << endl;
+
+        if (inventory.size() == 0) {
+            cout << "Your inventory is empty.\n";
+        }
+        else {
+            for (int i = 0; i < inventory.size(); i++) {
+                cout << i + 1 << ". " << inventory[i] << endl;
+            }
+        }
+    }
 };
 
 // =============================
@@ -109,6 +212,9 @@ private:
     int xp;
     int xpToLevel;
     int maxLevel;
+    vector<string> inventory;
+    int gold;
+
 public:
     static const hptype HPGROWTH = (hptype)13u;
     static const stattype BASESTR = (stattype)2u;
@@ -119,6 +225,8 @@ public:
         xp = 0;
         xpToLevel = 30;
         maxLevel = 8;
+        gold = 0;
+        inventory.push_back("Health Potion");
     }
     int getLevel() {
         return level;
@@ -146,6 +254,52 @@ public:
         increaseStrength(1);
         increaseIntellect(2);
     }
+    int getGold() {
+    return gold;
+}
+
+void gainGold(int amount) {
+    gold += amount;
+}
+
+bool spendGold(int amount) {
+    if (gold >= amount) {
+        gold -= amount;
+        return true;
+    }
+
+    return false;
+}
+
+void addItem(string itemName) {
+    inventory.push_back(itemName);
+}
+
+int getInventorySize() {
+    return inventory.size();
+}
+
+string getItem(int index) {
+    if (index >= 0 && index < inventory.size()) {
+        return inventory[index];
+    }
+
+    return "Invalid Item";
+}
+
+    void showInventory() {
+        cout << "\n===== INVENTORY =====\n";
+        cout << "Gold: " << gold << endl;
+
+        if (inventory.size() == 0) {
+            cout << "Your inventory is empty.\n";
+        }
+        else {
+            for (int i = 0; i < inventory.size(); i++) {
+                cout << i + 1 << ". " << inventory[i] << endl;
+            }
+        }
+    }
 };
 
 // =============================
@@ -158,6 +312,9 @@ class Rogue : public hp, public StatBlock {
     int xp;
     int xpToLevel;
     int maxLevel;
+    vector<string> inventory;
+    int gold;
+
 public:
     static const hptype HPGROWTH = (hptype)10u;
     static const stattype BASESTR = (stattype)3u;
@@ -168,6 +325,8 @@ public:
         xp = 0;
         xpToLevel = 30;
         maxLevel = 8;
+        gold = 0;
+        inventory.push_back("Health Potion");
     }
     int getLevel() {
         return level;
@@ -194,5 +353,51 @@ public:
         increaseMaxHP(5);
         increaseStrength(2);
         increaseIntellect(1);
+    }
+    int getGold() {
+    return gold;
+}
+
+void gainGold(int amount) {
+    gold += amount;
+}
+
+bool spendGold(int amount) {
+    if (gold >= amount) {
+        gold -= amount;
+        return true;
+    }
+
+    return false;
+}
+
+void addItem(string itemName) {
+    inventory.push_back(itemName);
+}
+
+int getInventorySize() {
+    return inventory.size();
+}
+
+string getItem(int index) {
+    if (index >= 0 && index < inventory.size()) {
+        return inventory[index];
+    }
+
+    return "Invalid Item";
+}
+
+    void showInventory() {
+        cout << "\n===== INVENTORY =====\n";
+        cout << "Gold: " << gold << endl;
+
+        if (inventory.size() == 0) {
+            cout << "Your inventory is empty.\n";
+        }
+        else {
+            for (int i = 0; i < inventory.size(); i++) {
+                cout << i + 1 << ". " << inventory[i] << endl;
+            }
+        }
     }
 };

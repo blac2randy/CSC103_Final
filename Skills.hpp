@@ -87,5 +87,20 @@ void showAvailableSkills(vector<Skill> skills, int playerLevel) {
         }
 
     }
-
 }
+int calculateSkillDamage(Skill skill, int strength, int intellect) {
+
+    if (skill.statUsed == "STR") {
+        return strength + skill.bonusDamage;
+    }
+    else if (skill.statUsed == "INT") {
+        return intellect + skill.bonusDamage;
+    }
+    else if (skill.statUsed == "BOTH") {
+        return strength + intellect + skill.bonusDamage;
+    }
+    return strength;
+}
+
+
+

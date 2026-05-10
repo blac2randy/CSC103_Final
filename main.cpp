@@ -2,6 +2,8 @@
 #include <string>
 #include "PlayerClasses.hpp"
 #include "Monster.hpp"
+#include "Skills.hpp"
+#include "Encounters.hpp"
 using namespace std;
 
 string openingScene(){
@@ -75,7 +77,6 @@ int getClassChoice() {
 
 }
 
-
 int main() {
     Warrior warr1;
     Wizard wiz1;
@@ -92,45 +93,29 @@ int main() {
         Warrior player;
         cout << "\n" << playerName << " remembers the path of the Warrior.\n";
         cout << "Prepare for battle!\n";
-
+        firstGoblinEncounter(player, getWarriorSkills(), "Warrior");
     }
     else if (choice == 2) {
         Wizard player;
         cout << "\n" << playerName << " remembers the path of the Wizard.\n";
         cout << "Prepare for battle!\n";
+        firstGoblinEncounter(player, getWizardSkills(), "Wizard");
     }
     else if (choice == 3) {
         Cleric player;
         cout << "\n" << playerName << " remembers the path of the Cleric.\n";
         cout << "Prepare for battle!\n";
-
+        firstGoblinEncounter(player, getClericSkills(), "Cleric");
     }
     else if (choice == 4) {
         Rogue player;
         cout << "\n" << playerName << " remembers the path of the Rogue.\n";
         cout << "Prepare for battle!\n";
+        firstGoblinEncounter(player, getRogueSkills(), "Rogue");
 
     }
 
-    Monster goblin(
-        "Goblin Scout",
-        "A small goblin carrying a rusty dagger.",
-    
-        12,  // HP
-        2,   // Strength
-        0,   // Intellect
-        15,  // XP reward
-        5    // Gold reward
-    );
 
-    cout << "=== MONSTER TEST ===\n\n";
-    cout << "Name: " << goblin.getName() << endl;
-    cout << "Description: " << goblin.getDescription() << endl;
-    cout << "HP: " << goblin.getCurrentHP() << "/" << goblin.getMaxHP() << endl;
-    cout << "Strength: " << goblin.getStrength() << endl;
-    cout << "Intellect: " << goblin.getIntellect() << endl;
-    cout << "XP Reward: " << goblin.getXPReward() << endl;
-    cout << "Gold Reward: " << goblin.getGoldReward() << endl;
     
 
     return 0;
