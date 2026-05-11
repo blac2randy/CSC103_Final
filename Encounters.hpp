@@ -7,37 +7,35 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include "TextHelp.hpp" 
 using namespace std;
 
-//Prints changing scenery based on the battle turn, rotates the text to fit imagery
+// Prints changing scenery based on the battle turn, rotates the text to fit imagery
 void FirstEncount(int turn) {
-
     int scene = turn % 5;
+
     if (scene == 1) {
-        cout << "\nThe carriage wheels creak behind you as dust rises from the road.\n";
-        cout << "Able grips the reins tightly while goblins spread across the path.\n";
+        slowPrintLine("\nThe carriage wheels creak behind you as dust rises from the road.", 12);
+        slowPrintLine("Able grips the reins tightly while goblins spread across the path.", 12);
     }
     else if (scene == 2) {
-        cout << "\nOne goblin kicks dirt toward the carriage and laughs.\n";
-        cout << "The horses panic, pulling against their harnesses.\n";
-
+        slowPrintLine("\nOne goblin kicks dirt toward the carriage and laughs.", 12);
+        slowPrintLine("The horses panic, pulling against their harnesses.", 12);
     }
     else if (scene == 3) {
-        cout << "\nThe forest around the road grows quiet.\n";
-        cout << "Only the scrape of crude goblin blades breaks the silence.\n";
+        slowPrintLine("\nThe forest around the road grows quiet.", 12);
+        slowPrintLine("Only the scrape of crude goblin blades breaks the silence.", 12);
     }
     else if (scene == 4) {
-        cout << "\nAble shouts from behind you, \"Don't let them surround us!\"\n";
-        cout << "The goblins begin circling closer.\n";
-
+        slowPrintLine("\nAble shouts from behind you, \"Don't let them surround us!\"", 12);
+        slowPrintLine("The goblins begin circling closer.", 12);
     }
     else {
-        cout << "\nA cold wind cuts across the road.\n";
-        cout << "The goblin bares its teeth and tightens its grip on the dagger.\n";
-
+        slowPrintLine("\nA cold wind cuts across the road.", 12);
+        slowPrintLine("The goblin bares its teeth and tightens its grip on the dagger.", 12);
     }
-
 }
+
 template <typename PlayerType>
 
 void showBattleStats(PlayerType& player, string className) {
@@ -62,8 +60,8 @@ void battle(PlayerType& player, Monster enemy, vector<Skill> playerSkills, strin
     int turn = 1;
 
     cout << "\n===== BATTLE START =====\n";
-    cout << enemy.getName() << " appears!\n";
-    cout << enemy.getDescription() << "\n";
+    slowPrintLine(enemy.getName() + " appears!", 15);
+    slowPrintLine(enemy.getDescription(), 15);
 
     while (player.getCurrentHP() > 0 && !enemy.isDefeated()) {
         cout << "\n==============================\n";
@@ -107,7 +105,7 @@ void battle(PlayerType& player, Monster enemy, vector<Skill> playerSkills, strin
                     player.getIntellect()
                 );
 
-                cout << "\nYou use " << playerSkills[index].name << "!\n";
+                slowPrintLine("\nYou use " + playerSkills[index].name + "!", 12);
                 cout << "You deal " << damage << " damage to " << enemy.getName() << ".\n";
 
                 enemy.takeDamage(damage);
@@ -145,9 +143,9 @@ void battle(PlayerType& player, Monster enemy, vector<Skill> playerSkills, strin
         }
 
         else if (choice == 5) {
-            cout << "\nYou scan the road carefully.\n";
-            cout << "There are more goblins nearby, but only one is attacking first.\n";
-            cout << "Able stays near the carriage, waiting for an opening.\n";
+            slowPrintLine("\nYou scan the road carefully.", 12);
+            slowPrintLine("There are more goblins nearby, but only one is attacking first.", 12);
+            slowPrintLine("Able stays near the carriage, waiting for an opening.", 12);
             turnPassed = true;
         }
         else {
@@ -162,7 +160,7 @@ void battle(PlayerType& player, Monster enemy, vector<Skill> playerSkills, strin
         if (turnPassed) {
             int enemyDamage = enemy.getStrength();
 
-            cout << "\n" << enemy.getName() << " lunges forward and attacks!\n";
+            slowPrintLine("\n" + enemy.getName() + " lunges forward and attacks!", 12);
             cout << enemy.getName() << " deals " << enemyDamage << " damage.\n";
 
             player.takeDamage(enemyDamage);
@@ -173,7 +171,7 @@ void battle(PlayerType& player, Monster enemy, vector<Skill> playerSkills, strin
 
     if (player.getCurrentHP() > 0) {
         cout << "\n===== VICTORY =====\n";
-        cout << "You defeated " << enemy.getName() << "!\n";
+        slowPrintLine("You defeated " + enemy.getName() + "!", 15);
 
         cout << "\nYou gained " << enemy.getXPReward() << " XP.\n";
         player.gainXP(enemy.getXPReward());
@@ -184,8 +182,8 @@ void battle(PlayerType& player, Monster enemy, vector<Skill> playerSkills, strin
     }
     else {
         cout << "\n===== DEFEAT =====\n";
-        cout << "You collapse beside the carriage.\n";
-        cout << "Able shouts your name, but the sound fades into darkness.\n";
+        slowPrintLine("You collapse beside the carriage.", 20);
+        slowPrintLine("Able shouts your name, but the sound fades into darkness.", 20);
     }
 }
 
@@ -204,9 +202,9 @@ Monster createFirstGoblin() {
 template <typename PlayerType>
 void firstGoblinEncounter(PlayerType& player, vector<Skill> playerSkills, string className) {
     cout << "\n===== FIRST ENCOUNTER: ROAD AMBUSH =====\n";
-    cout << "The goblin steps forward, dragging its rusty dagger across the dirt.\n";
-    cout << "Able backs toward the carriage and shouts,\n";
-    cout << "\"Now would be a good time to remember how to fight!\"\n";
+    slowPrintLine("The goblin steps forward, dragging its rusty dagger across the dirt.", 15);
+    slowPrintLine("Able backs toward the carriage and shouts,", 15);
+    slowPrintLine("\"Now would be a good time to remember how to fight!\"", 15);
 
     Monster goblin = createFirstGoblin();
 

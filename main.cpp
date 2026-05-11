@@ -4,43 +4,63 @@
 #include "Monster.hpp"
 #include "Skills.hpp"
 #include "Encounters.hpp"
+#include "TextHelp.hpp"
 using namespace std;
 
-string openingScene(){
+string openingScene() {
 
-    //Epic exposition scene
     string playerName;
-    cout << "\nYou jolt awake.\n";
-    cout << "The world rocks beneath you as wooden wheels grind against a dirt road.\n";
-    cout << "You are inside a moving carriage, but your memory feels broken and hazy.\n\n"; 
 
-    cout << "\"Adventurer, you're awake. I wasn't able to properly introduce myself last night.\"\n";
-    cout << "\"I'm Able. What's your name?\"\n\n";
+    slowPrintLine("\nYou jolt awake.", 30);
+    slowPrintLine("The world rocks beneath you as wooden wheels grind against a dirt road.", 25);
+    slowPrintLine("You are inside a moving carriage, but your memory feels broken and hazy.", 25);
+    cout << endl;
+
+    slowPrintLine("\"Adventurer, you're awake. I wasn't able to properly introduce myself last night.\"", 25);
+    slowPrintLine("\"I'm Able. What's your name?\"", 25);
+    cout << endl;
 
     cout << "Enter your name: ";
     cin >> playerName;
+    cout << endl;
 
-    cout << "\n\"It's " << playerName << ",\" you say.\n\n";
+    slowPrintLine("\"It's " + playerName + ",\" you say.", 25);
+    cout << endl;
 
-    cout << "\"So, " << playerName << ", why are you traveling alone?\"\n";
-    cout << "\"It's been getting dangerous lately with frequent monster attacks.\"\n\n";
+    slowPrintLine("\"So, " + playerName + ", why are you traveling alone?\"", 25);
+    slowPrintLine("\"It's been getting dangerous lately with frequent monster attacks.\"", 25);
+    cout << endl;
 
-    cout << "The carriage suddenly comes to a halt.\n";
-    cout << "You turn your head toward the road and see a group of goblins blocking the path.\n\n";
-    cout << "\""<< playerName << ", you know how to fight, right?\"\n\n";
+    slowPrintLine("The carriage suddenly comes to a halt.", 30);
+    slowPrintLine("You turn your head toward the road and see a group of goblins blocking the path.", 25);
+    cout << endl;
 
-    cout << "Your memory is still clouded, but pieces of your past begin to return.\n";
-    cout << "You remember being one of four things:\n\n";
+    slowPrintLine("\"" + playerName + ", you know how to fight, right?\"", 25);
+    cout << endl;
 
-    cout << "A legendary warrior who took down opponents and monsters said to be undefeatable.\n\n";
-    cout << "A great wizard whose magic surpassed dragons and seemed to rewrite the world.\n\n";
-    cout << "A miracle cleric whose healing power could cure deadly illnesses and restore the wounded.\n\n";
-    cout << "Or a shadow in the night, a rogue unmatched in stealth and feared across the land.\n\n";
-    cout << "The goblins draw their weapons.\n";
-    cout << "You must remember who you are.\n\n";
+    slowPrintLine("Your memory is still clouded, but pieces of your past begin to return.", 25);
+    slowPrintLine("You remember being one of four things:", 25);
+    cout << endl;
+
+    slowPrintLine("A legendary warrior who took down opponents and monsters said to be undefeatable.", 25);
+    cout << endl;
+
+    slowPrintLine("A great wizard whose magic drawn from the weave called upon by their Goddess Mystra.", 25);
+    cout << endl;
+
+    slowPrintLine("A miracle cleric whose healing power could cure deadly illnesses and restore the wounded.", 25);
+    cout << endl;
+
+    slowPrintLine("Or a shadow in the night, a rogue unmatched in stealth and feared across the land.", 25);
+    cout << endl;
+
+    slowPrintLine("The goblins draw their weapons.", 30);
+    slowPrintLine("You must remember who you are.", 35);
+    cout << endl;
 
     return playerName;
-};
+
+}
 void printClassMenu(){
 
     cout << "Choose your class:\n\n";

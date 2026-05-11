@@ -31,7 +31,7 @@ vector<Skill> getWarriorSkills() {
     skills.push_back(Skill("Heavy Strike", "A stronger attack from above", "STR", 2, 3));
     skills.push_back(Skill("Shield Bash", "A crushing shield attack.", "STR", 4, 5));
     skills.push_back(Skill("Cleave", "A wide powerful swing.", "STR", 6, 8));
-    skills.push_back(Skill("Heroic Breaker", "Bellow from the chest and strike with all your might", "STR", 8, 12));
+    skills.push_back(Skill("Menacing Attack", "Bellow from the chest and strike with all your might", "STR", 8, 12));
 
     return skills;
 
@@ -42,7 +42,7 @@ vector<Skill> getWizardSkills() {
     vector<Skill> skills;
 
     skills.push_back(Skill("Ignis", "A small burst of fire magic", "INT", 1, 0));
-    skills.push_back(Skill("Firebolt", "A burning magical projectile.", "INT", 2, 3));
+    skills.push_back(Skill("WildBurst", "A burning magical projectile.", "INT", 2, 3));
     skills.push_back(Skill("Ice shard", "A sharp spear of ice.", "INT", 4, 5));
     skills.push_back(Skill("Arcane Burst", "A blast of unstable magic.", "INT", 6, 8));
     skills.push_back(Skill("Eldritch Blast", "Call apon your patron and fire a beam of forbidden magic untold.", "INT", 8, 12));
@@ -54,7 +54,7 @@ vector<Skill> getClericSkills() {
 
     vector<Skill> skills;
     skills.push_back(Skill("Staff Strike", "You hit them with a stick.", "STR", 1, 0));
-    skills.push_back(Skill("Smite", "Infused attack with the power of God.", "INT", 2, 3));
+    skills.push_back(Skill("Cast", "Infused attack with the power of God.", "INT", 2, 3));
     skills.push_back(Skill("Smite", "A focused holy attack.", "INT", 4, 5));
     skills.push_back(Skill("Blessed Hammer", "A strike empowered by faith.", "BOTH", 6, 0));
     skills.push_back(Skill("Divine Judgment", "A powerful holy finishing spell.", "INT", 8, 12));
