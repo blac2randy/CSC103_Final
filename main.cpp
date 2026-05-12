@@ -31,9 +31,14 @@ string openingScene() {
     slowPrintLine("\"It's been getting dangerous lately with frequent monster attacks.\"", 25);
     cout << endl;
 
+
     slowPrintLine("The carriage suddenly comes to a halt.", 30);
     slowPrintLine("You turn your head toward the road and see a group of goblins blocking the path.", 25);
     cout << endl;
+
+    cout << "The carriage suddenly comes to a halt.\n";
+    cout << "You turn your head toward the road and see a goblin blocking the path.\n\n";
+    cout << "\""<< playerName << ", you know how to fight, right?\"\n\n";
 
     slowPrintLine("\"" + playerName + ", you know how to fight, right?\"", 25);
     cout << endl;
@@ -132,4 +137,6 @@ int main() {
 
     }
     return 0;
+
 }
+
