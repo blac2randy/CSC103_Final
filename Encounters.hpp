@@ -58,6 +58,10 @@ void showBattleInventory(PlayerType& player) {
 template <typename PlayerType>
 void battle(PlayerType& player, Monster enemy, vector<Skill> playerSkills, string className) {
     int turn = 1;
+    int damageBoostPercent = 0;
+    int damageBoostTurns = 0;
+    int damageReductionPercent = 0;
+    int damageReductionTurns = 0;
 
     cout << "\n===== BATTLE START =====\n";
     slowPrintLine(enemy.getName() + " appears!", 15);
@@ -96,30 +100,62 @@ void battle(PlayerType& player, Monster enemy, vector<Skill> playerSkills, strin
 
             int index = skillChoice - 1;
 
-            if (index >= 0 && index < playerSkills.size() &&
-                player.getLevel() >= playerSkills[index].unlockLevel) {
+    if (index >= 0 && index < static_cast<int>(playerSkills.size()) &&
+        player.getLevel() >= playerSkills[index].unlockLevel) {
 
-                int damage = calculateSkillDamage(
-                    playerSkills[index],
-                    player.getStrength(),
-                    player.getIntellect()
-                );
+        if (playerSkills[index].currentCooldown > 0) {
+            cout << "\n" << playerSkills[index].name << " is on cooldown for "
+                << playerSkills[index].currentCooldown << " more turn(s).\n";
+        }
+        else {
+            Skill chosenSkill = playerSkills[index];
 
-                slowPrintLine("\nYou use " + playerSkills[index].name + "!", 12);
-                cout << "You deal " << damage << " damage to " << enemy.getName() << ".\n";
+            if (chosenSkill.effectType == "BOOST_DAMAGE") {
+                damageBoostPercent = chosenSkill.value;
+                damageBoostTurns = chosenSkill.duration;
 
-                enemy.takeDamage(damage);
+                cout << "\nYou use " << chosenSkill.name << "!\n";
+                cout << "Your skill damage increases by " << damageBoostPercent
+                    << "% for " << damageBoostTurns << " turns.\n";
+            }
+            else if (chosenSkill.effectType == "REDUCE_DAMAGE_TAKEN") {
+                damageReductionPercent = chosenSkill.value;
+                damageReductionTurns = chosenSkill.duration;
+
+                cout << "\nYou use " << chosenSkill.name << "!\n";
+                cout << "Enemy damage is reduced by " << damageReductionPercent
+                    << "% for " << damageReductionTurns << " turns.\n";
             }
             else {
-                cout << "\nInvalid or locked skill. You hesitate and lose your chance to attack.\n";
-            }
+                int damage = calculateSkillDamage(
+                    chosenSkill,
+                    player.getStrength(),
+                    player.getIntellect(),
+                    enemy.getMaxHP()
+                );
+                if (damageBoostTurns > 0) {
+                    damage = damage * (100 + damageBoostPercent) / 100;
+                }
 
+                cout << "\nYou use " << chosenSkill.name << "!\n";
+                if (chosenSkill.effectType == "MULTI_HIT") {
+                    cout << "You strike " << chosenSkill.value << " times!\n";
+                }
+
+                cout << "You deal " << damage << " damage to " << enemy.getName() << ".\n";
+                enemy.takeDamage(damage);
+            }
+        playerSkills[index].currentCooldown = playerSkills[index].cooldown;
+    }
+}
+        else {
+            cout << "\nInvalid or locked skill. You hesitate and lose your chance to attack.\n";
+        }
             turnPassed = true;
         }
         else if (choice == 2) {
             showBattleStats(player, className);
         }
-
         else if (choice == 3) {
             showBattleInventory(player);
         }
@@ -159,12 +195,31 @@ void battle(PlayerType& player, Monster enemy, vector<Skill> playerSkills, strin
 
         if (turnPassed) {
             int enemyDamage = enemy.getStrength();
-
-            slowPrintLine("\n" + enemy.getName() + " lunges forward and attacks!", 12);
+            if (damageReductionTurns > 0) {
+                enemyDamage = enemyDamage * (100 - damageReductionPercent) / 100;
+            
+                if (enemyDamage < 1) {
+                    enemyDamage = 1;
+                }
+                cout << "\nYour defensive effect reduces the attack!\n";
+            }
+            cout << "\n" << enemy.getName() << " lunges forward and attacks!\n";
             cout << enemy.getName() << " deals " << enemyDamage << " damage.\n";
 
             player.takeDamage(enemyDamage);
+            //Reduce cooldown timers
+            for (int i = 0; i < static_cast<int>(playerSkills.size()); i++) {
+                if (playerSkills[i].currentCooldown > 0) {
+                    playerSkills[i].currentCooldown--;
+                }
+            }
+            if (damageBoostTurns > 0) {
+                damageBoostTurns--;
+            }
 
+            if (damageReductionTurns > 0) {
+                damageReductionTurns--;
+            }
             turn++;
         }
     }

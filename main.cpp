@@ -98,11 +98,7 @@ int getClassChoice() {
 }
 
 int main() {
-    Warrior warr1;
-    Wizard wiz1;
-    Cleric cler1;
-    Rogue rog1;
-
+   
     //Player Choice
     string playerName;
     int choice;
@@ -111,33 +107,34 @@ int main() {
 
     if (choice == 1) {
         Warrior player;
+        player.gainXP(210);
+
+        cout << "\nDEBUG Warrior Level: " << player.getLevel() << endl;
+        cout << "DEBUG Warrior HP: " << player.getCurrentHP()
+             << "/" << player.getMaxHP() << endl;
+        cout << "DEBUG Warrior Strength: " << player.getStrength() << endl;
         cout << "\n" << playerName << " remembers the path of the Warrior.\n";
-        cout << "Prepare for battle!\n";
+        slowPrintLine("Prepare for battle!", 30);
         firstGoblinEncounter(player, getWarriorSkills(), "Warrior");
     }
     else if (choice == 2) {
         Wizard player;
         cout << "\n" << playerName << " remembers the path of the Wizard.\n";
-        cout << "Prepare for battle!\n";
+        slowPrintLine("Prepare for battle!", 30);
         firstGoblinEncounter(player, getWizardSkills(), "Wizard");
     }
     else if (choice == 3) {
         Cleric player;
         cout << "\n" << playerName << " remembers the path of the Cleric.\n";
-        cout << "Prepare for battle!\n";
+        slowPrintLine("Prepare for battle!", 30);
         firstGoblinEncounter(player, getClericSkills(), "Cleric");
     }
     else if (choice == 4) {
         Rogue player;
         cout << "\n" << playerName << " remembers the path of the Rogue.\n";
-        cout << "Prepare for battle!\n";
+        slowPrintLine("Prepare for battle!", 30);
         firstGoblinEncounter(player, getRogueSkills(), "Rogue");
 
     }
-
-
-    
-
     return 0;
-
 }
