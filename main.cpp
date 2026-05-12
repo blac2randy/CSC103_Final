@@ -107,12 +107,7 @@ int main() {
 
     if (choice == 1) {
         Warrior player;
-        player.gainXP(210);
 
-        cout << "\nDEBUG Warrior Level: " << player.getLevel() << endl;
-        cout << "DEBUG Warrior HP: " << player.getCurrentHP()
-             << "/" << player.getMaxHP() << endl;
-        cout << "DEBUG Warrior Strength: " << player.getStrength() << endl;
         cout << "\n" << playerName << " remembers the path of the Warrior.\n";
         slowPrintLine("Prepare for battle!", 30);
         firstGoblinEncounter(player, getWarriorSkills(), "Warrior");
