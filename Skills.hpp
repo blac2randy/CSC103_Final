@@ -27,58 +27,17 @@ public:
         currentCooldown = 0;
     }
 };
+
+
 vector<Skill> getWarriorSkills() {
     vector<Skill> skills;
 
-    skills.push_back(Skill(
-        "Slash",
-        "A basic sword attack.",
-        "STR_DAMAGE",
-        1,
-        0,  // +0 bonus damage
-        0,  // no duration
-        0   // no cooldown
-    ));
-
-    skills.push_back(Skill(
-        "Multi Cut",
-        "Attack twice with quick sword strikes.",
-        "MULTI_HIT",
-        2,
-        2,  // 2 hits
-        0,  // no duration
-        2   // 2 turn cooldown
-    ));
-
-    skills.push_back(Skill(
-        "Guard",
-        "Enemies deal 30% less damage for 3 turns.",
-        "REDUCE_DAMAGE_TAKEN",
-        4,
-        30, // 30% damage reduction
-        3,  // lasts 3 turns
-        5   // 5 turn cooldown
-    ));
-
-    skills.push_back(Skill(
-        "Heavy Slash",
-        "A powerful slash that deals 3x basic Strength damage.",
-        "STR_MULTIPLIER",
-        6,
-        3,  // 3x Strength
-        0,  // no duration
-        3   // 3 turn cooldown
-    ));
-
-    skills.push_back(Skill(
-        "Battle Cry",
-        "Increase skill damage by 20% for 2 turns.",
-        "BOOST_DAMAGE",
-        8,
-        20, // 20% damage boost
-        2,  // lasts 2 turns
-        5   // 5 turn cooldown
-    ));
+    skills.push_back(Skill("Slash", "A basic sword attack.", "STR_DAMAGE", 1, 0, 0, 0));
+    skills.push_back(Skill("Multi Cut", "Attack twice with quick sword strikes.", "MULTI_HIT", 2, 2, 0, 2));
+    skills.push_back(Skill("Guard", "Enemies deal 30% less damage for 3 turns.","REDUCE_DAMAGE_TAKEN", 4, 30, 3, 5));
+    skills.push_back(Skill("Heavy Slash", "A powerful slash that deals 3x basic Strength damage.", "STR_MULTIPLIER", 6, 3, 0, 3));
+    skills.push_back(Skill("Battle Cry", "Increase skill damage by 20% for 2 turns.", "BOOST_DAMAGE", 8, 20, 2, 5));
+    
     return skills;
 }
 
@@ -87,7 +46,7 @@ vector<Skill> getWizardSkills() {
 
     skills.push_back(Skill("Ignis", "A small burst of fire magic.", "INT_DAMAGE", 1, 0, 0, 0));
     skills.push_back(Skill("Wind Cutter", "A slicing burst of wind that deals 6 damage.", "FLAT_DAMAGE", 2, 6, 0, 2));
-    skills.push_back(Skill("Lightning", "A bolt of lightning that deals 10 damage.", "FLAT_DAMAGE", 4, 10, 0, 3));
+    skills.push_back(Skill("Witch Bolt", "A bolt of lightning that deals 10 damage.", "FLAT_DAMAGE", 4, 10, 0, 3));
     skills.push_back(Skill("Shield", "Enemies deal 30% less damage for 3 turns.", "REDUCE_DAMAGE_TAKEN", 6, 30, 3, 5));
     skills.push_back(Skill("Light Cannon", "A concentrated beam of magic that deals 20 damage.", "FLAT_DAMAGE", 8, 20, 0, 5));
 
@@ -97,11 +56,11 @@ vector<Skill> getWizardSkills() {
 vector<Skill> getClericSkills() {
     vector<Skill> skills;
 
-    skills.push_back(Skill("Staff Strike", "You hit them with a stick.", "STR_DAMAGE", 1, 0, 0, 0));
+    skills.push_back(Skill("Shillelagh Strike", "You hit them with a stick.", "STR_DAMAGE", 1, 0, 0, 0));
     skills.push_back(Skill("Prayer", "Heal 40% of your max HP.", "HEAL_PERCENT", 2, 40, 0, 3));
     skills.push_back(Skill("Sloth", "Enemies deal 40% less damage for 4 turns.", "REDUCE_DAMAGE_TAKEN", 4, 40, 4, 5));
-    skills.push_back(Skill("Death Rancor", "Deal basic damage plus 30% of the enemy's max HP.", "STR_PLUS_PERCENT", 6, 30, 0, 4));
-    skills.push_back(Skill("Greater Recovery", "Heal 80% of your max HP.", "HEAL_PERCENT", 8, 80, 0, 5));
+    skills.push_back(Skill("Sacred Flame", "Deal basic damage plus 30% of the enemy's max HP.", "STR_PLUS_PERCENT", 6, 30, 0, 4));
+    skills.push_back(Skill("Bless", "Heal 80% of your max HP.", "HEAL_PERCENT", 8, 80, 0, 5));
 
     return skills;
 }
