@@ -116,24 +116,53 @@ int main() {
         cout << "\n" << playerName << " remembers the path of the Warrior.\n";
         slowPrintLine("Prepare for battle!", 30);
         firstGoblinEncounter(player, getWarriorSkills(), "Warrior");
+
+        restCamp(
+        player,
+        "Forest",
+        "The goblin's body lays lifeless on the road as the forest slowly grows quiet again.",
+        "\"You handled yourself better than I expected. But that was only the first danger on this road.\"",
+        "Warrior"
+        );
     }
     else if (choice == 2) {
         Wizard player;
         cout << "\n" << playerName << " remembers the path of the Wizard.\n";
         slowPrintLine("Prepare for battle!", 30);
         firstGoblinEncounter(player, getWizardSkills(), "Wizard");
+        restCamp(
+        player,
+        "Forest",
+        "The goblin's body burns with a singe from your powerful arcane.",
+        "\"You handled yourself better than I expected. But that was only the first danger on this road.\"",
+        "Wizard"
+        );
     }
     else if (choice == 3) {
         Cleric player;
         cout << "\n" << playerName << " remembers the path of the Cleric.\n";
         slowPrintLine("Prepare for battle!", 30);
         firstGoblinEncounter(player, getClericSkills(), "Cleric");
+        restCamp(
+        player,
+        "Forest",
+        "The goblin's body lays lifeless on your arms, you see it's soul leaving as you begin to shut it's eyes.",
+        "\"You handled yourself better than I expected. But that was only the first danger on this road.\"",
+        "Cleric"
+        );
     }
     else if (choice == 4) {
         Rogue player;
         cout << "\n" << playerName << " remembers the path of the Rogue.\n";
         slowPrintLine("Prepare for battle!", 30);
         firstGoblinEncounter(player, getRogueSkills(), "Rogue");
+        restCamp(
+        player,
+        "Forest",
+        "The goblin's body lays lifeless on the road, you let out a nervous chuckle as you thank the Gods you live to see another day.",
+        "\"You handled yourself better than I expected. But that was only the first danger on this road.\"",
+        "Warrior"
+        );
 
     }
     return 0;

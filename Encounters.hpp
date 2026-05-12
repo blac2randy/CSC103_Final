@@ -266,3 +266,88 @@ void firstGoblinEncounter(PlayerType& player, vector<Skill> playerSkills, string
     battle(player, goblin, playerSkills, className);
 }
 
+//Able's shop
+template <typename PlayerType>
+void ableShop(PlayerType& player) {
+    int choice;
+
+    while (true) {
+        slowPrint("Take whatever you need,", 15);
+        cout << "\n===== ABLE'S SHOP =====\n";
+        cout << "Gold: " << player.getGold() << "\n\n";
+
+        cout << "1. Buy Health Potion - 10 gold\n";
+        cout << "2. Leave Shop\n";
+        cout << "Enter choice: ";
+        cin >> choice;
+
+        if (choice == 1) {
+            if (player.spendGold(10)) {
+                player.addItem("Health Potion");
+                cout << "\nAble hands you a Health Potion.\n";
+                cout << "\"Use it when things get ugly,\" he says.\n";
+            }
+            else {
+                cout << "\nYou do not have enough gold.\n";
+            }
+        }
+        else if (choice == 2) {
+            cout << "\nYou step away from Able's supplies.\n";
+            return;
+        }
+        else {
+            cout << "\nInvalid choice.\n";
+        }
+    }
+}
+
+//Resting 
+template <typename PlayerType>
+void restCamp(PlayerType& player, string locationName, string sceneryText, string ableDialogue, string className) {
+    int choice;
+
+    cout << "\n===== CAMP: " << locationName << " =====\n";
+    slowPrintLine(sceneryText, 15);
+    slowPrintLine("Able guides the carriage off the road and checks the supplies.", 15);
+
+    while (true) {
+        cout << "\nWhat would you like to do?\n";
+        cout << "1. Rest\n";
+        cout << "2. Talk to Able\n";
+        cout << "3. Shop with Able\n";
+        cout << "4. View Stats\n";
+        cout << "5. View Inventory\n";
+        cout << "6. Continue\n";
+        cout << "Enter choice: ";
+
+        cin >> choice;
+
+        if (choice == 1) {
+            player.heal(player.getMaxHP());
+
+            cout << "\nYou rest beside the carriage.\n";
+            cout << "Your HP has been restored to "
+                 << player.getCurrentHP() << "/" << player.getMaxHP() << ".\n";
+        }
+        else if (choice == 2) {
+            slowPrintLine("\nAble leans against the carriage and looks toward the road ahead.", 15);
+            slowPrintLine(ableDialogue, 15);
+        }
+        else if (choice == 3) {
+            ableShop(player);
+        }
+        else if (choice == 4) {
+            showBattleStats(player, className);
+        }
+        else if (choice == 5) {
+            showBattleInventory(player);
+        }
+        else if (choice == 6) {
+            slowPrintLine("\nYou climb back into the carriage. The journey continues.", 15);
+            return;
+        }
+        else {
+            cout << "\nInvalid choice. Please choose 1-6.\n";
+        }
+    }
+}
