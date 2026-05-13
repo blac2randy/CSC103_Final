@@ -38,7 +38,7 @@ string openingScene() {
 
     cout << "The carriage suddenly comes to a halt.\n";
     cout << "You turn your head toward the road and see a goblin blocking the path.\n\n";
-    cout << "\""<< playerName << ", you know how to fight, right?\"\n\n";
+    //cout << "\""<< playerName << ", you know how to fight, right?\"\n\n";
 
     slowPrintLine("\"" + playerName + ", you know how to fight, right?\"", 60);
     cout << endl;
