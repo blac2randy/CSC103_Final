@@ -4,7 +4,6 @@
 #include "PlayerClasses.hpp"
 #include "Monster.hpp"
 #include "Skills.hpp"
-#include <iostream>
 #include <string>
 #include <vector>
 #include "TextHelp.hpp" 
@@ -44,7 +43,7 @@ void showBattleInventory(PlayerType& player) {
 
 //Battle Function start
 template <typename PlayerType>
-void battle(PlayerType& player, Monster enemy, vector<Skill> playerSkills, string className) {
+void battle(PlayerType& player, Monster enemy, vector<Skill> playerSkills, string className,vector<string> sceneryLines, string observeText) {
     int turn = 1;
     int damageBoostPercent = 0;
     int damageBoostTurns = 0;
@@ -167,9 +166,7 @@ void battle(PlayerType& player, Monster enemy, vector<Skill> playerSkills, strin
         }
 
         else if (choice == 5) {
-            slowPrintLine("\nYou scan the road carefully.", 12);
-            slowPrintLine("There are more goblins nearby, but only one is attacking first.", 12);
-            slowPrintLine("Able stays near the carriage, waiting for an opening.", 12);
+            slowPrintLine("\n" + observeText, 12);
             turnPassed = true;
         }
         else {
@@ -231,30 +228,46 @@ void battle(PlayerType& player, Monster enemy, vector<Skill> playerSkills, strin
 }
 //Battle Function end
 
+//Encounter System
+/* Basically I reworked the first encounter to work as a template for future encounters  */
 template <typename PlayerType>
 void runEncounter(PlayerType& player, vector<Skill> playerSkills, string className,
                   Monster enemy, string encounterTitle, string introText,
-                  vector<string> sceneryLines) {
+                  vector<string> sceneryLines, string observeText) {
     cout << "\n===== " << encounterTitle << " =====\n";
     slowPrintLine(introText, 15);
 
-    battle(player, enemy, playerSkills, className, sceneryLines);
+    battle(player, enemy, playerSkills, className, sceneryLines, observeText);
 }
 
-Monster createFirstGoblin() {
+Monster createGoblin() {
     return Monster(
         "Goblin Scout",
         "A small goblin carrying a rusty dagger. Its eyes dart between you and the carriage.",
-        12,
-        2,
-        0,
-        15,
-        5
+        12, //HP
+        2,  // Strength
+        0,  //Intellect
+        15, //XP reward
+        5 //Gold
     );
 }
 
+Monster createHobgoblin() {
+    return Monster(
+        "Hobgoblin",
+        "A disciplined goblinoid warrior wearing cracked leather armor and a wolf skull helm. He carries a rusted serrated shortsword and a small wooden buckler.",
+        20, 
+        4,   
+        0,   
+        20,  
+        8    
+    );
+
+}
+
+//List of World One Monsters Ecounters
 template <typename PlayerType>
-void firstGoblinEncounter(PlayerType& player, vector<Skill> playerSkills, string className) {
+void GoblinEncounter(PlayerType& player, vector<Skill> playerSkills, string className) {
     vector<string> sceneryLines;
 
     sceneryLines.push_back("The carriage wheels creak behind you as dust rises from the road.");
@@ -269,12 +282,36 @@ void firstGoblinEncounter(PlayerType& player, vector<Skill> playerSkills, string
         player,
         playerSkills,
         className,
-        createFirstGoblin(),
+        createGoblin(),
         "FIRST ENCOUNTER: ROAD AMBUSH",
         "The goblin steps forward, dragging its rusty dagger across the dirt. Able backs toward the carriage and shouts, \"Now would be a good time to remember how to fight!\"",
-        sceneryLines
+        sceneryLines,
+        "There are more goblins nearby, but only one is attacking first. Able stays near the carriage, waiting for an opening."
     );
 }
+
+template <typename PlayerType>
+void HobgoblinEncounter(PlayerType& player, vector<Skill> playerSkills, string className) {
+    vector<string> sceneryLines;
+
+    sceneryLines.push_back("The forest grows thicker as you move farther from the road.");
+    sceneryLines.push_back("Sword marks cut across the bark of nearby trees.");
+    sceneryLines.push_back("Half-eaten animals lie near the path, warning you that goblins are close.");
+    sceneryLines.push_back("Able keeps one hand near his supplies, watching the bushes carefully.");
+    sceneryLines.push_back("The twisted vine trap snaps behind you as the hobgoblin steps forward.");
+    sceneryLines.push_back("The hobgoblin taps his wooden buckler with his serrated blade, daring you to move first.");
+    runEncounter(
+        player,
+        playerSkills,
+        className,
+        createHobgoblin(),
+        "SECOND ENCOUNTER: GOBLIN CAMP TRAIL",
+        "As you venture deep into the forest, you begin to see signs of a goblin camp: sword marks on trees, half-eaten animals, and crude traps hidden in the brush. Suddenly, your foot catches on a tripwire made of twisted vines. From the bushes steps a hobgoblin wearing leather armor and a wolf skull helm. Able lowers his voice: \"That is no scout. Hobgoblins are trained for war. Prepare yourself.\"",
+        sceneryLines,
+        "The hobgoblin stands with discipline unlike the scout, that is they seem to actually have thought. His buckler is raised, his blade angled low, and his eyes track your every movement."
+    );
+}
+
 
 //Able's shop
 template <typename PlayerType>
@@ -360,4 +397,46 @@ void restCamp(PlayerType& player, string locationName, string sceneryText, strin
             cout << "\nInvalid choice. Please choose 1-6.\n";
         }
     }
+}
+
+//World one!
+template <typename PlayerType>
+void worldOne(PlayerType& player, vector<Skill> playerSkills, string className, string playerName, string firstVictoryText) {
+    cout << "\n===== WORLD 1: FOREST ROAD =====\n";
+    slowPrintLine("Able guides the carriage deeper along the forest road.", 15);
+
+    GoblinEncounter(player, playerSkills, className);
+
+    if (player.getCurrentHP() <= 0) {
+        return;
+    }
+
+    restCamp(
+        player,
+        "Forest Road",
+        firstVictoryText,
+        "\"You had me worried. You seem to be a seasoned veteran. The sun's setting. Let's set up camp.\"",
+        className
+    );
+
+    slowPrintLine("\nYou wake up to the sun in your eyes and birds chirping.", 15);
+    slowPrintLine("Able kneels beside a small fire, preparing a simple meal.", 15);
+    slowPrintLine("\"" + playerName + ", glad to see your not dead. \"", 15);
+    slowPrintLine("\"There's word of a goblin camp in the woods, and the guild pays well to clear it out.\"", 15);
+    slowPrintLine("Seeing how much gold you have, you decide it would not be a bad idea to investigate.", 15);
+    slowPrintLine("You also hope that fighting may sharpen your mind and reveal more about your past.", 15);
+
+    HobgoblinEncounter(player, playerSkills, className);
+
+    if (player.getCurrentHP() <= 0) {
+        return;
+    }
+
+    restCamp(
+        player,
+        "Deeper Forest",
+        "The hobgoblin falls, and the forest becomes still again. The signs of a larger camp are now impossible to ignore.",
+        "\"That was no ordinary goblin. Something more sinister is waiting deeper in the woods.\"",
+        className
+    );
 }
