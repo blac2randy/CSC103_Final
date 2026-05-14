@@ -11,29 +11,16 @@
 using namespace std;
 
 // Prints changing scenery based on the battle turn, rotates the text to fit imagery
-void FirstEncount(int turn) {
-    int scene = turn % 5;
 
-    if (scene == 1) {
-        slowPrintLine("\nThe carriage wheels creak behind you as dust rises from the road.", 12);
-        slowPrintLine("Able grips the reins tightly while goblins spread across the path.", 12);
+/***Remember to cite ChatGPT May 12 2026, How to build a template that prints for 
+different encounters ***/
+
+void printBattleScenery(vector<string> sceneryLines, int turn) {
+    if (sceneryLines.size() == 0) {
+        return;
     }
-    else if (scene == 2) {
-        slowPrintLine("\nOne goblin kicks dirt toward the carriage and laughs.", 12);
-        slowPrintLine("The horses panic, pulling against their harnesses.", 12);
-    }
-    else if (scene == 3) {
-        slowPrintLine("\nThe forest around the road grows quiet.", 12);
-        slowPrintLine("Only the scrape of crude goblin blades breaks the silence.", 12);
-    }
-    else if (scene == 4) {
-        slowPrintLine("\nAble shouts from behind you, \"Don't let them surround us!\"", 12);
-        slowPrintLine("The goblins begin circling closer.", 12);
-    }
-    else {
-        slowPrintLine("\nA cold wind cuts across the road.", 12);
-        slowPrintLine("The goblin bares its teeth and tightens its grip on the dagger.", 12);
-    }
+    int index = (turn - 1) % sceneryLines.size();
+    slowPrintLine("\n" + sceneryLines[index], 12);
 }
 
 template <typename PlayerType>
@@ -55,6 +42,7 @@ void showBattleInventory(PlayerType& player) {
     player.showInventory();
 }
 
+//Battle Function start
 template <typename PlayerType>
 void battle(PlayerType& player, Monster enemy, vector<Skill> playerSkills, string className) {
     int turn = 1;
@@ -72,7 +60,7 @@ void battle(PlayerType& player, Monster enemy, vector<Skill> playerSkills, strin
         cout << "TURN " << turn << endl;
         cout << "==============================\n";
 
-        FirstEncount(turn);
+        printBattleScenery(sceneryLines, turn);
 
         cout << "\n\nYour HP: " << player.getCurrentHP() << "/" << player.getMaxHP() << endl;
         cout << enemy.getName() << " HP: " << enemy.getCurrentHP() << "/" << enemy.getMaxHP() << endl;
@@ -115,7 +103,7 @@ void battle(PlayerType& player, Monster enemy, vector<Skill> playerSkills, strin
                 damageBoostTurns = chosenSkill.duration;
 
                 cout << "\nYou use " << chosenSkill.name << "!\n";
-                cout << "Your skill damage increases by " << damageBoostPercent
+                cout << "Your damage increases by " << damageBoostPercent
                     << "% for " << damageBoostTurns << " turns.\n";
             }
             else if (chosenSkill.effectType == "REDUCE_DAMAGE_TAKEN") {
@@ -201,7 +189,7 @@ void battle(PlayerType& player, Monster enemy, vector<Skill> playerSkills, strin
                 if (enemyDamage < 1) {
                     enemyDamage = 1;
                 }
-                cout << "\nYour defensive effect reduces the attack!\n";
+                cout << "\nYour defense is boosted!\n";
             }
             cout << "\n" << enemy.getName() << " lunges forward and attacks!\n";
             cout << enemy.getName() << " deals " << enemyDamage << " damage.\n";
@@ -241,6 +229,17 @@ void battle(PlayerType& player, Monster enemy, vector<Skill> playerSkills, strin
         slowPrintLine("Able shouts your name, but the sound fades into darkness.", 20);
     }
 }
+//Battle Function end
+
+template <typename PlayerType>
+void runEncounter(PlayerType& player, vector<Skill> playerSkills, string className,
+                  Monster enemy, string encounterTitle, string introText,
+                  vector<string> sceneryLines) {
+    cout << "\n===== " << encounterTitle << " =====\n";
+    slowPrintLine(introText, 15);
+
+    battle(player, enemy, playerSkills, className, sceneryLines);
+}
 
 Monster createFirstGoblin() {
     return Monster(
@@ -256,14 +255,25 @@ Monster createFirstGoblin() {
 
 template <typename PlayerType>
 void firstGoblinEncounter(PlayerType& player, vector<Skill> playerSkills, string className) {
-    cout << "\n===== FIRST ENCOUNTER: ROAD AMBUSH =====\n";
-    slowPrintLine("The goblin steps forward, dragging its rusty dagger across the dirt.", 15);
-    slowPrintLine("Able backs toward the carriage and shouts,", 15);
-    slowPrintLine("\"Now would be a good time to remember how to fight!\"", 15);
+    vector<string> sceneryLines;
 
-    Monster goblin = createFirstGoblin();
-
-    battle(player, goblin, playerSkills, className);
+    sceneryLines.push_back("The carriage wheels creak behind you as dust rises from the road.");
+    sceneryLines.push_back("Able grips the reins tightly while goblins spread across the path.");
+    sceneryLines.push_back("One goblin kicks dirt toward the carriage and laughs.");
+    sceneryLines.push_back("The horses panic, pulling against their harnesses.");
+    sceneryLines.push_back("The forest around the road grows quiet.");
+    sceneryLines.push_back("Only the scrape of crude goblin blades breaks the silence.");
+    sceneryLines.push_back("Able shouts from behind you, \"Don't let them surround us!\"");
+    sceneryLines.push_back("A cold wind cuts across the road.");
+    runEncounter(
+        player,
+        playerSkills,
+        className,
+        createFirstGoblin(),
+        "FIRST ENCOUNTER: ROAD AMBUSH",
+        "The goblin steps forward, dragging its rusty dagger across the dirt. Able backs toward the carriage and shouts, \"Now would be a good time to remember how to fight!\"",
+        sceneryLines
+    );
 }
 
 //Able's shop

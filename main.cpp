@@ -36,9 +36,9 @@ string openingScene() {
     slowPrintLine("You turn your head toward the road and see a group of goblins blocking the path.", 25);
     cout << endl;
 
-    cout << "The carriage suddenly comes to a halt.\n";
-    cout << "You turn your head toward the road and see a goblin blocking the path.\n\n";
-    cout << "\""<< playerName << ", you know how to fight, right?\"\n\n";
+    slowPrintLine("The carriage suddenly comes to a halt.", 25);
+    slowPrintLine("You turn your head toward the road and see a goblin blocking the path.", 25);
+
 
     slowPrintLine("\"" + playerName + ", you know how to fight, right?\"", 25);
     cout << endl;
@@ -110,13 +110,13 @@ int main() {
     playerName = openingScene();
     choice = getClassChoice();
 
+    //use player.gainXP(210); below class declaration to test at max level.
     if (choice == 1) {
         Warrior player;
-
+        player.gainXP(210);
         cout << "\n" << playerName << " remembers the path of the Warrior.\n";
         slowPrintLine("Prepare for battle!", 30);
         firstGoblinEncounter(player, getWarriorSkills(), "Warrior");
-
         restCamp(
         player,
         "Forest",
