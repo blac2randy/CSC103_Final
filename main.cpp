@@ -11,51 +11,51 @@ string openingScene() {
 
     string playerName;
 
-    slowPrintLine("\nYou jolt awake.", 60);
-    slowPrintLine("The world rocks beneath you as wooden wheels grind against a dirt road.", 60);
-    slowPrintLine("You are inside a moving carriage, but your memory feels broken and hazy.", 60);
+    slowPrintLine("\nYou jolt awake.", 40);
+    slowPrintLine("The world rocks beneath you as wooden wheels grind against a dirt road.", 40);
+    slowPrintLine("You are inside a moving carriage, but your memory feels broken and hazy.", 40);
     cout << endl;
 
     slowPrintLine("\"Adventurer, you're awake. I wasn't able to properly introduce myself last night.\"", 60);
-    slowPrintLine("\"I'm Able. What's your name?\"", 60);
+    slowPrintLine("\"I'm Able. What's your name?\"", 40);
     cout << endl;
 
     cout << "Enter your name: ";
     cin >> playerName;
     cout << endl;
 
-    slowPrintLine("\"It's " + playerName + ",\" you say.", 60);
+    slowPrintLine("\"It's " + playerName + ",\" you say.", 40);
     cout << endl;
 
-    slowPrintLine("\"So, " + playerName + ", why are you traveling alone?\"", 60);
-    slowPrintLine("\"It's been getting dangerous lately with frequent monster attacks.\"", 60);
+    slowPrintLine("\"So, " + playerName + ", why are you traveling alone?\"", 40);
+    slowPrintLine("\"It's been getting dangerous lately with frequent monster attacks.\"", 40);
     cout << endl;
 
-    slowPrintLine("The carriage suddenly comes to a halt.", 60);
-    slowPrintLine("You turn your head toward the road and see a group of goblins blocking the path.", 60);
+    slowPrintLine("The carriage suddenly comes to a halt.", 40);
+    slowPrintLine("You turn your head toward the road and see a group of goblins blocking the path.", 40);
     cout << endl;
 
-    slowPrintLine("\"" + playerName + ", you know how to fight, right?\"", 60);
+    slowPrintLine("\"" + playerName + ", you know how to fight, right?\"", 40);
     cout << endl;
 
-    slowPrintLine("Your memory is still clouded, but pieces of your past begin to return.", 60);
-    slowPrintLine("You remember being one of four things:", 60);
+    slowPrintLine("Your memory is still clouded, but pieces of your past begin to return.", 40);
+    slowPrintLine("You remember being one of four things:", 40);
     cout << endl;
 
-    slowPrintLine("A legendary warrior who took down opponents and monsters said to be undefeatable.", 60);
+    slowPrintLine("A legendary warrior who took down opponents and monsters said to be undefeatable.", 40);
     cout << endl;
 
-    slowPrintLine("A great wizard whose magic was drawn from the Weave and blessed by the goddess Mystra.", 60);
-    cout << endl;
-    
-    slowPrintLine("A miracle cleric whose healing power could cure deadly illnesses and restore the wounded.", 60);
+    slowPrintLine("A great wizard whose magic was drawn from the Weave and blessed by the goddess Mystra.", 40);
     cout << endl;
 
-    slowPrintLine("Or a shadow in the night, a rogue unmatched in stealth and feared across the land.", 60);
+    slowPrintLine("A miracle cleric whose healing power could cure deadly illnesses and restore the wounded.", 40);
     cout << endl;
 
-    slowPrintLine("The goblins draw their weapons.", 60);
-    slowPrintLine("You must remember who you are.", 60);
+    slowPrintLine("Or a shadow in the night, a rogue unmatched in stealth and feared across the land.", 40);
+    cout << endl;
+
+    slowPrintLine("The goblins draw their weapons.", 40);
+    slowPrintLine("You must remember who you are.", 40);
     cout << endl;
 
     return playerName;
@@ -110,7 +110,7 @@ int main() {
         Warrior player;
 
         cout << "\n" << playerName << " remembers the path of the Warrior.\n";
-        slowPrintLine("Prepare for battle!", 60);
+        slowPrintLine("Prepare for battle!", 40);
 
         worldOne(
             player,
@@ -125,7 +125,7 @@ int main() {
         Wizard player;
 
         cout << "\n" << playerName << " remembers the path of the Wizard.\n";
-        slowPrintLine("Prepare for battle!", 60);
+        slowPrintLine("Prepare for battle!", 40);
 
         worldOne(
             player,
@@ -139,7 +139,7 @@ int main() {
         Cleric player;
 
         cout << "\n" << playerName << " remembers the path of the Cleric.\n";
-        slowPrintLine("Prepare for battle!", 60);
+        slowPrintLine("Prepare for battle!", 40);
 
         worldOne(
             player,
@@ -153,7 +153,7 @@ int main() {
         Rogue player;
 
         cout << "\n" << playerName << " remembers the path of the Rogue.\n";
-        slowPrintLine("Prepare for battle!", 60);
+        slowPrintLine("Prepare for battle!", 40);
 
         worldOne(
             player,

@@ -84,13 +84,21 @@ int getInventorySize() {
 }
 
 string getItem(int index) {
-    if (index >= 0 && index < inventory.size()) {
+    if (index >= 0 && index < static_cast<int>(inventory.size())) {
         return inventory[index];
     }
 
     return "Invalid Item";
 }
-    void showInventory() {
+
+//Remove Items with specific effects
+void removeItem(int index) {
+    if (index >= 0 && index < static_cast<int>(inventory.size())) {
+        inventory.erase(inventory.begin() + index);
+    }
+}
+
+void showInventory() {
         cout << "\n===== INVENTORY =====\n";
         cout << "Gold: " << gold << endl;
 
@@ -103,10 +111,11 @@ string getItem(int index) {
             }
         }
     }
- bool useItem(int itemChoice) {
+
+    bool useItem(int itemChoice) {
         int index = itemChoice - 1;
 
-        if (index < 0 || index >= inventory.size()) {
+        if (index < 0 || index >= static_cast<int>(inventory.size())) {
             cout << "Invalid item choice.\n";
             return false;
         }
@@ -117,11 +126,18 @@ string getItem(int index) {
             heal(10);
             cout << "You used a Health Potion and restored 10 HP.\n";
 
-            inventory.erase(inventory.begin() + index);
+            removeItem(index);
+            return true;
+        }
+        else if (item == "Greater Health Potion") {
+            heal(25);
+            cout << "You used a Greater Health Potion and restored 25 HP.\n";
+
+            removeItem(index);
             return true;
         }
 
-        cout << item << " cannot be used right now.\n";
+        cout << item << " can only be used during battle.\n";
         return false;
     }
 };
@@ -203,11 +219,17 @@ int getInventorySize() {
 }
 
 string getItem(int index) {
-    if (index >= 0 && index < inventory.size()) {
+    if (index >= 0 && index < static_cast<int>(inventory.size())) {
         return inventory[index];
     }
 
     return "Invalid Item";
+}
+//Remove Items with specific effects
+void removeItem(int index) {
+    if (index >= 0 && index < static_cast<int>(inventory.size())) {
+        inventory.erase(inventory.begin() + index);
+    }
 }
 
     void showInventory() {
@@ -223,10 +245,11 @@ string getItem(int index) {
             }
         }
     }
+
     bool useItem(int itemChoice) {
         int index = itemChoice - 1;
 
-        if (index < 0 || index >= inventory.size()) {
+        if (index < 0 || index >= static_cast<int>(inventory.size())) {
             cout << "Invalid item choice.\n";
             return false;
         }
@@ -236,6 +259,38 @@ string getItem(int index) {
         if (item == "Health Potion") {
             heal(10);
             cout << "You used a Health Potion and restored 10 HP.\n";
+
+            inventory.erase(inventory.begin() + index);
+            return true;
+        }
+        else if (item == "Greater Health Potion") {
+            heal(25);
+            cout << "You used a Greater Health Potion and restored 25 HP.\n";
+
+            inventory.erase(inventory.begin() + index);
+            return true;
+        }
+        else if (item == "Titan's Blood") {
+            increaseStrength(2);
+            cout << "You drank the cursed blood. +20% skill damage for the rest of battle.\n";
+
+            inventory.erase(inventory.begin() + index);
+            return true;
+        }
+        else if (item == "Cursed Beetle Larvae") {
+            increaseIntellect(2);
+            cout << "You bit into the insect larvae. Enemy damage reduced by 20% for the rest of battle.\n";
+
+            inventory.erase(inventory.begin() + index);
+            return true;
+        }
+        else if (item == "Dancer's Talisman") {
+            heal(30);
+            increaseStrength(2);
+            increaseIntellect(2);
+
+            cout << "You channel your will into the keepsake.\n";
+            cout << "restores 30 HP and gives +20% skill damage for the rest of battle, enemy deals 20% less damage for rest of battle\n";
 
             inventory.erase(inventory.begin() + index);
             return true;
@@ -324,11 +379,17 @@ int getInventorySize() {
 }
 
 string getItem(int index) {
-    if (index >= 0 && index < inventory.size()) {
+    if (index >= 0 && index < static_cast<int>(inventory.size())) {
         return inventory[index];
     }
 
     return "Invalid Item";
+}
+//Remove Items with specific effects
+void removeItem(int index) {
+    if (index >= 0 && index < static_cast<int>(inventory.size())) {
+        inventory.erase(inventory.begin() + index);
+    }
 }
 
     void showInventory() {
@@ -352,18 +413,51 @@ string getItem(int index) {
             cout << "Invalid item choice.\n";
             return false;
         }
+
         string item = inventory[index];
 
         if (item == "Health Potion") {
             heal(10);
             cout << "You used a Health Potion and restored 10 HP.\n";
+
             inventory.erase(inventory.begin() + index);
             return true;
-
         }
+        else if (item == "Greater Health Potion") {
+            heal(25);
+            cout << "You used a Greater Health Potion and restored 25 HP.\n";
+
+            inventory.erase(inventory.begin() + index);
+            return true;
+        }
+        else if (item == "Titan's Blood") {
+            increaseStrength(2);
+            cout << "You drank the cursed blood. +20% skill damage for the rest of battle.\n";
+
+            inventory.erase(inventory.begin() + index);
+            return true;
+        }
+        else if (item == "Cursed Beetle Larvae") {
+            increaseIntellect(2);
+            cout << "You bit into the insect larvae. Enemy damage reduced by 20% for the rest of battle.\n";
+
+            inventory.erase(inventory.begin() + index);
+            return true;
+        }
+        else if (item == "Dancer's Talisman") {
+            heal(30);
+            increaseStrength(2);
+            increaseIntellect(2);
+
+            cout << "You channel your will into the keepsake.\n";
+            cout << "restores 30 HP and gives +20% skill damage for the rest of battle, enemy deals 20% less damage for rest of battle\n";
+
+            inventory.erase(inventory.begin() + index);
+            return true;
+        }
+
         cout << item << " cannot be used right now.\n";
         return false;
-
     }
 };
 
@@ -439,13 +533,19 @@ bool spendGold(int amount) {
 void addItem(string itemName) {
     inventory.push_back(itemName);
 }
+//Remove Items with specific effects
+void removeItem(int index) {
+    if (index >= 0 && index < static_cast<int>(inventory.size())) {
+        inventory.erase(inventory.begin() + index);
+    }
+}
 
 int getInventorySize() {
     return inventory.size();
 }
 
 string getItem(int index) {
-    if (index >= 0 && index < inventory.size()) {
+    if (index >= 0 && index < static_cast<int>(inventory.size())) {
         return inventory[index];
     }
 
@@ -465,10 +565,11 @@ string getItem(int index) {
             }
         }
     }
+
     bool useItem(int itemChoice) {
         int index = itemChoice - 1;
 
-        if (index < 0 || index >= inventory.size()) {
+        if (index < 0 || index >= static_cast<int>(inventory.size())) {
             cout << "Invalid item choice.\n";
             return false;
         }
@@ -478,6 +579,38 @@ string getItem(int index) {
         if (item == "Health Potion") {
             heal(10);
             cout << "You used a Health Potion and restored 10 HP.\n";
+
+            inventory.erase(inventory.begin() + index);
+            return true;
+        }
+        else if (item == "Greater Health Potion") {
+            heal(25);
+            cout << "You used a Greater Health Potion and restored 25 HP.\n";
+
+            inventory.erase(inventory.begin() + index);
+            return true;
+        }
+        else if (item == "Titan's Blood") {
+            increaseStrength(2);
+            cout << "You drank the cursed blood. +20% skill damage for the rest of battle.\n";
+
+            inventory.erase(inventory.begin() + index);
+            return true;
+        }
+        else if (item == "Cursed Beetle Larvae") {
+            increaseIntellect(2);
+            cout << "You bit into the insect larvae. Enemy damage reduced by 20% for the rest of battle.\n";
+
+            inventory.erase(inventory.begin() + index);
+            return true;
+        }
+        else if (item == "Dancer's Talisman") {
+            heal(30);
+            increaseStrength(2);
+            increaseIntellect(2);
+
+            cout << "You channel your will into the keepsake.\n";
+            cout << "restores 30 HP and gives +20% skill damage for the rest of battle, enemy deals 20% less damage for rest of battle\n";
 
             inventory.erase(inventory.begin() + index);
             return true;

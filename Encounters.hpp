@@ -41,6 +41,73 @@ void showBattleInventory(PlayerType& player) {
     player.showInventory();
 }
 
+//Item Usage function
+template <typename PlayerType>
+bool useBattleItem(PlayerType& player, int itemChoice,
+                   int& damageBoostPercent, int& damageBoostTurns,
+                   int& damageReductionPercent, int& damageReductionTurns) {
+    int index = itemChoice - 1;
+
+    if (index < 0 || index >= player.getInventorySize()) {
+        cout << "Invalid item choice.\n";
+        return false;
+    }
+
+    string item = player.getItem(index);
+
+    if (item == "Health Potion") {
+        player.heal(10);
+        cout << "You used a Health Potion and restored 10 HP.\n";
+        player.removeItem(index);
+        return true;
+    }
+    else if (item == "Greater Health Potion") {
+        player.heal(25);
+        cout << "You used a Greater Health Potion and restored 25 HP.\n";
+        player.removeItem(index);
+        return true;
+    }
+    else if (item == "Titan's Blood") {
+        damageBoostPercent = 20;
+        damageBoostTurns = -1; // rest of battle
+
+        cout << "You drank Titan's Blood.\n";
+        cout << "Your skill damage increases by 20% for the rest of the battle.\n";
+
+        player.removeItem(index);
+        return true;
+    }
+    else if (item == "Cursed Beetle Larvae") {
+        damageReductionPercent = 20;
+        damageReductionTurns = -1; // rest of battle
+
+        cout << "You bit into the Cursed Beetle Larvae.\n";
+        cout << "Enemy damage is reduced by 20% for the rest of the battle.\n";
+
+        player.removeItem(index);
+        return true;
+    }
+    else if (item == "Dancer's Talisman") {
+        player.heal(30);
+
+        damageBoostPercent = 20;
+        damageBoostTurns = -1; // rest of battle
+
+        damageReductionPercent = 20;
+        damageReductionTurns = -1; // rest of battle
+
+        cout << "You channel your will into the Dancer's Talisman.\n";
+        cout << "You restored 30 HP.\n";
+        cout << "Your damage increases by 20% and enemy damage is reduced by 20% for the rest of battle.\n";
+
+        player.removeItem(index);
+        return true;
+    }
+
+    cout << item << " cannot be used right now.\n";
+    return false;
+}
+
 //Battle Function start
 template <typename PlayerType>
 void battle(PlayerType& player, Monster enemy, vector<Skill> playerSkills, string className,vector<string> sceneryLines, string observeText) {
@@ -120,8 +187,8 @@ void battle(PlayerType& player, Monster enemy, vector<Skill> playerSkills, strin
                     player.getIntellect(),
                     enemy.getMaxHP()
                 );
-                if (damageBoostTurns > 0) {
-                    damage = damage * (100 + damageBoostPercent) / 100;
+            if (damageBoostTurns > 0 || damageBoostTurns == -1) {
+                damage = damage * (100 + damageBoostPercent) / 100;
                 }
 
                 cout << "\nYou use " << chosenSkill.name << "!\n";
@@ -133,8 +200,8 @@ void battle(PlayerType& player, Monster enemy, vector<Skill> playerSkills, strin
                 enemy.takeDamage(damage);
             }
         playerSkills[index].currentCooldown = playerSkills[index].cooldown;
+        }
     }
-}
         else {
             cout << "\nInvalid or locked skill. You hesitate and lose your chance to attack.\n";
         }
@@ -148,23 +215,30 @@ void battle(PlayerType& player, Monster enemy, vector<Skill> playerSkills, strin
         }
 
         else if (choice == 4) {
-
             showBattleInventory(player);
+
             cout << "Choose an item to use: ";
             int itemChoice;
             cin >> itemChoice;
-            bool usedItem = player.useItem(itemChoice);
+
+            bool usedItem = useBattleItem(
+                player,
+                itemChoice,
+                damageBoostPercent,
+                damageBoostTurns,
+                damageReductionPercent,
+                damageReductionTurns
+            );
 
             if (usedItem) {
                 cout << "Current HP: " << player.getCurrentHP()
-                << "/" << player.getMaxHP() << endl;
+                    << "/" << player.getMaxHP() << endl;
                 turnPassed = true;
             }
             else {
                 cout << "No item was used.\n";
             }
         }
-
         else if (choice == 5) {
             slowPrintLine("\n" + observeText, 12);
             turnPassed = true;
@@ -180,7 +254,7 @@ void battle(PlayerType& player, Monster enemy, vector<Skill> playerSkills, strin
 
         if (turnPassed) {
             int enemyDamage = enemy.getStrength();
-            if (damageReductionTurns > 0) {
+            if (damageReductionTurns > 0 || damageReductionTurns == -1) {
                 enemyDamage = enemyDamage * (100 - damageReductionPercent) / 100;
             
                 if (enemyDamage < 1) {
@@ -216,9 +290,9 @@ void battle(PlayerType& player, Monster enemy, vector<Skill> playerSkills, strin
         cout << "\nYou gained " << enemy.getXPReward() << " XP.\n";
         player.gainXP(enemy.getXPReward());
 
-       cout << "You found " << enemy.getGoldReward() << " gold.\n";
-       player.gainGold(enemy.getGoldReward());
-       cout << "Current Gold: " << player.getGold() << endl;
+        cout << "You found " << enemy.getGoldReward() << " gold.\n";
+        player.gainGold(enemy.getGoldReward());
+        cout << "Current Gold: " << player.getGold() << endl;
     }
     else {
         cout << "\n===== DEFEAT =====\n";
@@ -240,6 +314,7 @@ void runEncounter(PlayerType& player, vector<Skill> playerSkills, string classNa
     battle(player, enemy, playerSkills, className, sceneryLines, observeText);
 }
 
+//List of World one creatures
 Monster createGoblin() {
     return Monster(
         "Goblin Scout",
@@ -264,6 +339,28 @@ Monster createHobgoblin() {
     );
 
 }
+Monster createGoblinShaman() {
+    return Monster(
+        "Goblin Shaman",
+        "A hunched goblin covered in bone charms and faded red paint. Arcane flows sickly through it's crooked staff.",
+        24, 
+        2,  
+        4,  
+        25, 
+        10  
+    );
+}
+Monster createGoblinChief() {
+    return Monster(
+        "Goblin Chief",
+        "A massive goblin wrapped in armor and animal bones. He carries a heavy cleaver stained of bloof from numerous battles.(Do you even lift bro)",
+        40, 
+        6,  
+        2,  
+        35, 
+        20 
+    );
+}
 
 //List of World One Monsters Ecounters
 template <typename PlayerType>
@@ -277,7 +374,7 @@ void GoblinEncounter(PlayerType& player, vector<Skill> playerSkills, string clas
     sceneryLines.push_back("The forest around the road grows quiet.");
     sceneryLines.push_back("Only the scrape of crude goblin blades breaks the silence.");
     sceneryLines.push_back("Able shouts from behind you, \"Don't let them surround us!\"");
-    sceneryLines.push_back("A cold wind cuts across the road.");
+    sceneryLines.push_back("A cold wind whistles across the road.");
     runEncounter(
         player,
         playerSkills,
@@ -311,20 +408,81 @@ void HobgoblinEncounter(PlayerType& player, vector<Skill> playerSkills, string c
         "The hobgoblin stands with discipline unlike the scout, that is they seem to actually have thought. His buckler is raised, his blade angled low, and his eyes track your every movement."
     );
 }
-
-
-//Able's shop
 template <typename PlayerType>
-void ableShop(PlayerType& player) {
+void GoblinShamanEncounter(PlayerType& player, vector<Skill> playerSkills, string className) {
+    vector<string> sceneryLines;
+
+    sceneryLines.push_back("The smell of rotting flesh and old bones cuts through the air.");
+    sceneryLines.push_back("Small charms made of feathers and teeth hang from the branches.");
+    sceneryLines.push_back("Able whispers, \"This is not just a camp. They have someone leading rituals here.\"");
+    sceneryLines.push_back("The shaman drags its staff through the dirt, tracing strange symbols.");
+    sceneryLines.push_back("Chants echoe through the forest as the air grows colder.");
+    sceneryLines.push_back("The goblin shaman grins, its eyes glowing with cruel intelligence.");
+
+    runEncounter(
+        player,
+        playerSkills,
+        className,
+        createGoblinShaman(),
+        "THIRD ENCOUNTER: SHAMAN'S GROVE",
+        "Deeper in the forest, you find a clearing marked with bones, grotesque symbols, and dying embers. A shaman steps from behind a twisted tree, lifting a crooked staff as the air begins to hum with arcane.",
+        sceneryLines,
+        "The shaman looks physically weaker than the hobgoblin, but the symbols around the clearing pulse with magic."
+    );
+}
+template <typename PlayerType>
+void GoblinChieftainEncounter(PlayerType& player, vector<Skill> playerSkills, string className) {
+    vector<string> sceneryLines;
+
+    sceneryLines.push_back("The goblin camp erupts into panic as the chieftain steps forward.");
+    sceneryLines.push_back("Able pulls the carriage back and shouts, \"This one is different!\"");
+    sceneryLines.push_back("The chieftain drags his cleaver through the dirt, carving a line between you and him.");
+    sceneryLines.push_back("The lesser goblinsare riled up, chanting for blood.");
+    sceneryLines.push_back("The chieftain raises his blade. It's stained silver gleams back at you, marking it's next victim.");
+    sceneryLines.push_back("The chieftain snarls, refusing to let you leave his camp alive.");
+
+    runEncounter(
+        player,
+        playerSkills,
+        className,
+        createGoblinChief(),
+        "WORLD 1 BOSS: GOBLIN CHIEF",
+        "At the heart of the goblin camp, crude tents surround a fire pit filled with bones and stolen goods. The goblins fall silent as their leader rises from a broken wooden throne. The Goblin Chieftain points his cleaver toward you and roars. This is the final battle of the forest road.",
+        sceneryLines,
+        "The chieftain is larger and calmer than the others. His armor is crude, but his stance shows experience. Defeating him may break the goblin camp completely."
+    );
+}
+
+//Able's shop & update shop level after boss
+template <typename PlayerType>
+void ableShop(PlayerType& player, int shopLevel) {
     int choice;
 
     while (true) {
-        slowPrint("Take whatever you need,", 15);
+        slowPrintLine("\n\"Take whatever you need,\"", 15);
+
         cout << "\n===== ABLE'S SHOP =====\n";
         cout << "Gold: " << player.getGold() << "\n\n";
 
         cout << "1. Buy Health Potion - 10 gold\n";
-        cout << "2. Leave Shop\n";
+
+        if (shopLevel >= 2) {
+            cout << "2. Buy Greater Health Potion - 20 gold\n";
+        }
+
+        if (shopLevel >= 3) {
+            cout << "3. Buy Titan's Blood - 25 gold\n";
+            cout << "   Increases skill damage by 20% for the rest of battle.\n";
+
+            cout << "4. Buy Cursed Beetle Larvae - 25 gold\n";
+            cout << "   Reduces enemy damage by 20% for the rest of battle.\n";
+        }
+
+        if (shopLevel >= 4) {
+            cout << "5. Buy Dancer's Talisman - 40 gold\n";
+            cout << "   Restores 30 HP, increases your damage by 20%, and reduces enemy damage by 20% for the rest of battle.\n";
+        }
+        cout << "9. Leave Shop\n";
         cout << "Enter choice: ";
         cin >> choice;
 
@@ -332,13 +490,48 @@ void ableShop(PlayerType& player) {
             if (player.spendGold(10)) {
                 player.addItem("Health Potion");
                 cout << "\nAble hands you a Health Potion.\n";
-                cout << "\"Use it when things get ugly,\" he says.\n";
             }
             else {
                 cout << "\nYou do not have enough gold.\n";
             }
         }
-        else if (choice == 2) {
+        else if (choice == 2 && shopLevel >= 2) {
+            if (player.spendGold(20)) {
+                player.addItem("Greater Health Potion");
+                cout << "\nAble hands you a Greater Health Potion.\n";
+            }
+            else {
+                cout << "\nYou do not have enough gold.\n";
+            }
+        }
+        else if (choice == 3 && shopLevel >= 3) {
+            if (player.spendGold(25)) {
+                player.addItem("Titan's Blood");
+                cout << "\nAble hands you a vial of Titan's Blood.\n";
+            }
+            else {
+                cout << "\nYou do not have enough gold.\n";
+            }
+        }
+        else if (choice == 4 && shopLevel >= 3) {
+            if (player.spendGold(25)) {
+                player.addItem("Cursed Beetle Larvae");
+                cout << "\nAble hands you a sealed jar of Cursed Beetle Larvae.\n";
+            }
+            else {
+                cout << "\nYou do not have enough gold.\n";
+            }
+        }
+        else if (choice == 5 && shopLevel >= 4) {
+            if (player.spendGold(40)) {
+                player.addItem("Dancer's Talisman");
+                cout << "\nAble hands you the Dancer's Talisman.\n";
+            }
+            else {
+                cout << "\nYou do not have enough gold.\n";
+            }
+        }
+        else if (choice == 9) {
             cout << "\nYou step away from Able's supplies.\n";
             return;
         }
@@ -350,7 +543,7 @@ void ableShop(PlayerType& player) {
 
 //Resting 
 template <typename PlayerType>
-void restCamp(PlayerType& player, string locationName, string sceneryText, string ableDialogue, string className) {
+void restCamp(PlayerType& player, string locationName, string sceneryText, string ableDialogue, string className, int shopLevel) {
     int choice;
 
     cout << "\n===== CAMP: " << locationName << " =====\n";
@@ -381,7 +574,7 @@ void restCamp(PlayerType& player, string locationName, string sceneryText, strin
             slowPrintLine(ableDialogue, 15);
         }
         else if (choice == 3) {
-            ableShop(player);
+            ableShop(player, shopLevel);
         }
         else if (choice == 4) {
             showBattleStats(player, className);
@@ -398,6 +591,7 @@ void restCamp(PlayerType& player, string locationName, string sceneryText, strin
         }
     }
 }
+
 
 //World one!
 template <typename PlayerType>
@@ -416,7 +610,8 @@ void worldOne(PlayerType& player, vector<Skill> playerSkills, string className, 
         "Forest Road",
         firstVictoryText,
         "\"You had me worried. You seem to be a seasoned veteran. The sun's setting. Let's set up camp.\"",
-        className
+        className,
+        1
     );
 
     slowPrintLine("\nYou wake up to the sun in your eyes and birds chirping.", 15);
@@ -427,16 +622,42 @@ void worldOne(PlayerType& player, vector<Skill> playerSkills, string className, 
     slowPrintLine("You also hope that fighting may sharpen your mind and reveal more about your past.", 15);
 
     HobgoblinEncounter(player, playerSkills, className);
-
     if (player.getCurrentHP() <= 0) {
         return;
     }
-
     restCamp(
         player,
         "Deeper Forest",
         "The hobgoblin falls, and the forest becomes still again. The signs of a larger camp are now impossible to ignore.",
         "\"That was no ordinary goblin. Something more sinister is waiting deeper in the woods.\"",
         className
+        1
+    );
+
+    GoblinShamanEncounter(player, playerSkills, className);
+    if (player.getCurrentHP() <= 0) {
+        return;
+    }
+    restCamp(
+        player,
+        "Shaman's Grove",
+        "The shaman collapses beside the dying embers. The strange symbols in the dirt fade as the forest releases a long, quiet breath.",
+        "\"That magic was keeping something hidden. We're close.\"",
+        className
+        1
+    );
+
+    //World 1 boss
+    GoblinChieftainEncounter(player, playerSkills, className);
+    if (player.getCurrentHP() <= 0) {
+        return;
+    }
+    restCamp(
+        player,
+        "Cleared Goblin Camp",
+        "The Goblin Chief falls, and the remaining goblins scatter into the trees.",
+        "\"You did it. The guild will pay well for this, but more importantly, you survived. Maybe your memories are starting to return.\"",
+        className,
+        2
     );
 }
