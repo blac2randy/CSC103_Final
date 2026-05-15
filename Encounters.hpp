@@ -411,6 +411,53 @@ Monster createMireWitch() {
         25
     );
 }
+Monster createGraveboundSoldier() {
+    return Monster(
+        "Gravebound Soldier",
+        "An undead soldier in cracked armor. Mud and gravewater drip from its shield as it marches forward.",
+        42,
+        7,
+        2,
+        45,
+        18
+    );
+}
+
+Monster createBoneCollector() {
+    return Monster(
+        "Bone Collector",
+        "A corpse-like creature carrying a sack of bones. Its fingers are long, sharp, and eager.",
+        46,
+        6,
+        4,
+        50,
+        20
+    );
+}
+
+Monster createMourningWraith() {
+    return Monster(
+        "Mourning Wraith",
+        "A ghostly figure wrapped in torn funeral cloth. Its voice sounds like several people crying at once.",
+        40,
+        3,
+        9,
+        55,
+        22
+    );
+}
+
+Monster createSealedRevenant() {
+    return Monster(
+        "Sealed Revenant",
+        "A towering undead knight chained to a broken seal. Its armor bears the same symbol Able found with you.",
+        75,
+        9,
+        6,
+        75,
+        40
+    );
+}
 
 //List of World One Monsters Ecounters
 template <typename PlayerType>
@@ -585,6 +632,91 @@ void MireWitchEncounter(PlayerType& player, vector<Skill> playerSkills, string c
         "At the heart of the Witchwood stands a crooked hut surrounded by candles, skulls, and black water. An old woman steps from the doorway, but her shadow bends in the wrong direction. She smiles at you as if greeting an old friend. \"Lost little hero,\" she says. \"Still trying to remember what you buried?\" Able goes pale. \"That is the witch. Do not listen to her.\"",
         sceneryLines,
         "The Mire Witch is physically weak, but her magic is far stronger. Her words seem aimed at your forgotten past."
+    );
+}
+template <typename PlayerType>
+void GraveboundSoldierEncounter(PlayerType& player, vector<Skill> playerSkills, string className) {
+    vector<string> sceneryLines;
+
+    sceneryLines.push_back("Cold mist rolls over cracked stone steps.");
+    sceneryLines.push_back("Able holds up a lantern, but its flame burns blue.");
+    sceneryLines.push_back("The soldier's shield scrapes against the catacomb wall.");
+    sceneryLines.push_back("Water bleeds from the walls of the chamber.");
+    sceneryLines.push_back("The undead soldier marches without hesitation.");
+
+    runEncounter(
+        player,
+        playerSkills,
+        className,
+        createGraveboundSoldier(),
+        "WORLD 3 - ENCOUNTER 1: CATACOMB GATE",
+        "Beyond the Witchwood, the road sinks into an ancient burial ground. Broken stone doors rise from the mud, marked with the same symbol from Able's broken seal. As you approach, an undead soldier pulls itself from the flooded earth and raises its shield.",
+        sceneryLines,
+        "The soldier fights like it remembers orders from a war long forgotten."
+    );
+}
+template <typename PlayerType>
+void BoneCollectorEncounter(PlayerType& player, vector<Skill> playerSkills, string className) {
+    vector<string> sceneryLines;
+
+    sceneryLines.push_back("Bones rattle somewhere in the darkness.");
+    sceneryLines.push_back("Able whispers, \"Do not step on anything that looks like a hand.\"");
+    sceneryLines.push_back("The creature drags its sack behind it, leaving white scratches on the stone.");
+    sceneryLines.push_back("Skulls in the walls shift slighty as you pass.");
+    sceneryLines.push_back("The Bone Collector clicks its teeth as if counting pieces.");
+
+    runEncounter(
+        player,
+        playerSkills,
+        className,
+        createBoneCollector(),
+        "WORLD 3 - ENCOUNTER 2: CATACOMBS",
+        "Inside the catacombs, the walls are packed with old bones and rusted weapons. A corpse-like creature bends over a pile of remains, selecting bones as if choosing tools. It turns toward you and opens its sack.",
+        sceneryLines,
+        "The Bone Collector looks fragile, but its long arms give it dangerous reach. It seems eager to add your bones to its collection."
+    );
+}
+template <typename PlayerType>
+void MourningWraithEncounter(PlayerType& player, vector<Skill> playerSkills, string className) {
+    vector<string> sceneryLines;
+
+    sceneryLines.push_back("A sobs echo through the flooded chamber.");
+    sceneryLines.push_back("Able lowers his lantern and says, \"That voice is not alive.\"");
+    sceneryLines.push_back("The air grows colder whenever the wraith looks at you.");
+    sceneryLines.push_back("Old names are carved into the walls, but one has been scratched away.");
+    sceneryLines.push_back("The wraith reaches toward you as if it recognizes your face.");
+
+    runEncounter(
+        player,
+        playerSkills,
+        className,
+        createMourningWraith(),
+        "WORLD 3 - ENCOUNTER 3: THE CRYPT",
+        "At the center of the catacombs, you enter a flooded crypt filled with broken statues. A ghostly figure drifts above the water, weeping into her hands. She looks up, she whispers a name you almost recognize.",
+        sceneryLines,
+        "The wraith is drawn to you as if your past is tied to this crypt."
+    );
+}
+template <typename PlayerType>
+void SealedRevenantEncounter(PlayerType& player, vector<Skill> playerSkills, string className) {
+    vector<string> sceneryLines;
+
+    sceneryLines.push_back("The broken seal pulses with dull red light.");
+    sceneryLines.push_back("Able steps back, staring at the symbol on the floor.");
+    sceneryLines.push_back("Chains drag across stone as the revenant raises its blade.");
+    sceneryLines.push_back("The catacombs tremble as forgotten magic wakes beneath your feet.");
+    sceneryLines.push_back("The revenant speaks in a hollow voice: \"Sealbreaker.\"");
+    sceneryLines.push_back("A memory flashes through your mind: your hand on this same seal long ago.");
+
+    runEncounter(
+        player,
+        playerSkills,
+        className,
+        createSealedRevenant(),
+        "WORLD 3 BOSS: THE SEALED REVENANT",
+        "Deep beneath the catacombs, you find a circular chamber built around a broken magical seal. Chains hang from the ceiling, all leading to a kneeling undead noble. As you step closer, the seal reacts to you. The knight rises and speaks one word: \"Sealbreaker.\" Able looks at you, \"That symbol... it was on the thing I found with you. \"You were not sealed away to protect you. You were sealed away to protect everyone else.\"",
+        sceneryLines,
+        "The revenant is not just guarding the chamber. It recognizes you. Every word it speaks pulls a violent force from deep inside your mind."
     );
 }
 
@@ -968,7 +1100,7 @@ void worldTwo(PlayerType& player, vector<Skill> playerSkills, string className, 
 
     restCamp(
         player,
-        "Rotting Path",
+        "Rotten Path",
         "The Bog Blight sinks back into the mud, leaving only broken roots and black water behind.",
         "\"The swamp itself is fighting us. Whatever lives here has power over the land.\"",
         className,
@@ -985,7 +1117,7 @@ void worldTwo(PlayerType& player, vector<Skill> playerSkills, string className, 
     restCamp(
         player,
         "Ruined Shrine",
-        "The Hexbound Knight collapses, its armor finally still. The witch marks fade from the rusted metal.",
+        "The Hexbound Knight collapses, The hex marks fade from the rusted metal.",
         "\"That knight may have been guarding this place for years. Or trapped here. Hard to tell which is worse.\"",
         className,
         2,
@@ -1026,4 +1158,252 @@ void worldTwo(PlayerType& player, vector<Skill> playerSkills, string className, 
 
     slowPrintLine("\n===== WORLD 2 COMPLETE =====", 15);
     slowPrintLine("As the witch's magic fades, the road beyond the bog begins to reveal itself.", 15);
+}
+void finalChoice(string className) {
+    int choice;
+
+    cout << "\n===== FINAL CHOICE =====\n";
+    slowPrintLine("The Bloodbound Urge wakes inside you.", 20);
+    slowPrintLine("It does not speak with words.", 20);
+    slowPrintLine("It speaks with hunger.", 20);
+
+    cout << "\n1. Resist it\n";
+    cout << "2. Embrace it\n";
+    cout << "Enter choice: ";
+    cin >> choice;
+
+    if (choice == 1) {
+        slowPrintLine("\nYou clench your fists and force the hunger back.", 20);
+
+        if (className == "Warrior") {
+            slowPrintLine("Your hands shake around an invisible weapon, but you refuse to swing.", 20);
+            slowPrintLine("Strength was never just the power to destroy. It was the power to stop yourself.", 20);
+        }
+        else if (className == "Wizard") {
+            slowPrintLine("Arcane power flickers around your fingers, wild and hungry.", 20);
+            slowPrintLine("You bind it with sheer will, choosing thought over instinct.", 20);
+        }
+        else if (className == "Cleric") {
+            slowPrintLine("A quiet prayer rises in your chest, not to erase what you are, but to guide you.", 20);
+            slowPrintLine("Your faith holds true.", 20);
+        }
+        else if (className == "Rogue") {
+            slowPrintLine("Every shadow around you seems to offer an easy escape into violence.", 20);
+            slowPrintLine("You step into the light instead.", 20);
+        }
+
+        slowPrintLine("\nYour past may be stained, but your future is still unwritten.", 20);
+        slowPrintLine("Able nods slowly.", 20);
+        slowPrintLine("\"Then we keep moving,\" he says. \"One good choice at a time.\"", 20);
+        slowPrintLine("\nENDING: THE URGE RESISTED", 25);
+    }
+    else if (choice == 2) {
+        slowPrintLine("\nYou stop fighting the hunger.", 20);
+        slowPrintLine("The fear, the guilt, the confusion... all of it fades beneath something sinister.", 20);
+
+        if (className == "Warrior") {
+            slowPrintLine("Your old strength returns like a war drum in your blood.", 20);
+            slowPrintLine("Able sees the change in your stance and reaches for the reins.", 20);
+        }
+        else if (className == "Wizard") {
+            slowPrintLine("The Weave bends around you, not like a gift, but like something afraid.", 20);
+            slowPrintLine("Able whispers your name, but the sound feels distant.", 20);
+        }
+        else if (className == "Cleric") {
+            slowPrintLine("The prayer in your chest twists into silence.", 20);
+            slowPrintLine("Able steps back, realizing the light in your eyes is gone.", 20);
+        }
+        else if (className == "Rogue") {
+            slowPrintLine("The shadows welcome you like an old friend.", 20);
+            slowPrintLine("Able notices too late that you have already moved.", 20);
+        }
+
+        slowPrintLine("\nAble takes one step back.", 20);
+        slowPrintLine("\"No,\" he says softly. \"That is not you.\"", 20);
+        slowPrintLine("But the Urge answers before you can.", 20);
+        slowPrintLine("When the carriage moves again, Able is no longer beside you.", 20);
+        slowPrintLine("Only silence remains where your friend once stood.", 20);
+
+        slowPrintLine("\nENDING: THE URGE AWAKENED", 25);
+    }
+    else {
+        slowPrintLine("\nYou hesitate, unable to choose.", 20);
+        slowPrintLine("Able watches you carefully, unsure whether to comfort you or fear you.", 20);
+        slowPrintLine("The darkness waits patiently.", 20);
+        slowPrintLine("\nENDING: UNDECIDED", 25);
+    }
+}
+template <typename PlayerType>
+void worldThree(PlayerType& player, vector<Skill> playerSkills, string className, string playerName) {
+    cout << "\n===== WORLD 3: CATACOMBS OF TARTAUS =====\n";
+    slowPrintLine("With the Witchwood behind you, the road sinks into low marshland and broken stone.", 15);
+    slowPrintLine("Ahead, ancient doors rise from the mud like the entrance to a forgotten tomb.", 15);
+    slowPrintLine("Able stops the carriage and pulls something from his coat: a broken seal marked with a strange symbol.", 15);
+    slowPrintLine("\"I found this on you when I picked you up,\" he says. \"I think it belongs here.\"", 15);
+
+    GraveboundSoldierEncounter(player, playerSkills, className);
+
+    if (player.getCurrentHP() <= 0) {
+        return;
+    }
+
+    restCamp(
+        player,
+        "Catacomb Gate",
+        "The Gravebound Soldier falls apart, its armor sinking back into the mud. The ancient gate waits in silence.",
+        "\"That thing was guarding the entrance. I do not think we are trespassing by accident anymore.\"",
+        className,
+        3,
+        3
+    );
+
+    BoneCollectorEncounter(player, playerSkills, className);
+
+    if (player.getCurrentHP() <= 0) {
+        return;
+    }
+
+    restCamp(
+        player,
+        "Hall of Egress",
+        "The Bone Collector collapses, spilling old bones across the stone floor. For a moment, the walls seem to sigh.",
+        "\"This place has been feeding on the dead for a long time. Stay close to the lantern.\"",
+        className,
+        3,
+        3
+    );
+
+    MourningWraithEncounter(player, playerSkills, className);
+
+    if (player.getCurrentHP() <= 0) {
+        return;
+    }
+
+    restCamp(
+        player,
+        "Nameless Crypt",
+        "The Mourning Wraith fades into mist. The scratched-away name on the wall still pulls at your mind.",
+        "\"She knew you. Or she thought she did. Either way, we are getting close to something you forgot.\"",
+        className,
+        3,
+        3
+    );
+
+    SealedRevenantEncounter(player, playerSkills, className);
+
+    if (player.getCurrentHP() <= 0) {
+        return;
+    }
+
+    restCamp(
+        player,
+        "Broken Seal Chamber",
+        "The Sealed Revenant falls to one knee before turning to ash. The broken seal glows once, then cracks apart completely. For a moment, your reflection appears in the dark stone floor, but it smiles before you do.",
+        "\"I should have told you sooner,\" Able says. \"When I found you, that seal was clenched in your hand. I thought it was protecting you. Now I think it was holding something inside you.\"",
+        className,
+        4,
+        4
+    );
+
+    slowPrintLine("\nA memory returns.", 15);
+    slowPrintLine("Not a peaceful one.", 15);
+    slowPrintLine("You see your hands covered in blood that is not yours.", 15);
+    slowPrintLine("You hear people begging you to stop.", 15);
+    slowPrintLine("And beneath it all, you feel something inside you smiling.", 15);
+    slowPrintLine("\nThe name comes back like a curse:", 20);
+    slowPrintLine("The Bloodbound Urge.", 30);
+
+    slowPrintLine("\nAble stares at you carefully.", 15);
+    slowPrintLine("\"Whatever you are,\" he says, \"you still get to choose what you do next.\"", 15);
+
+    slowPrintLine("\n===== WORLD 3 COMPLETE =====", 15);
+
+    finalChoice();
+}
+template <typename PlayerType>
+void worldThree(PlayerType& player, vector<Skill> playerSkills, string className, string playerName) {
+    cout << "\n===== WORLD 3: THE CATACOMBS OF TARTARUS =====\n";
+    slowPrintLine("With the Witchwood behind you, the road sinks into low marshland and broken stone.", 15);
+    slowPrintLine("Ahead, ancient doors appear from the fog, seemingly to enter a tomb.", 15);
+    slowPrintLine("Able stops the carriage and pulls something from his coat: a broken seal marked with a strange symbol.", 15);
+    slowPrintLine("\"I found this on you when I picked you up,\" he says. \"I think it belongs to you.\"", 15);
+
+    GraveboundSoldierEncounter(player, playerSkills, className);
+
+    if (player.getCurrentHP() <= 0) {
+        return;
+    }
+
+    restCamp(
+        player,
+        "Catacomb Gate",
+        "The Gravebound Soldier falls apart, its armor sinking back into the mud. The ancient gate waits in silence.",
+        "\"That thing was guarding the entrance. I do not think we are trespassing by accident anymore.\"",
+        className,
+        3,
+        3
+    );
+
+    BoneCollectorEncounter(player, playerSkills, className);
+
+    if (player.getCurrentHP() <= 0) {
+        return;
+    }
+
+    restCamp(
+        player,
+        "Hall of EGRESS",
+        "The Bone Collector collapses, spilling old bones across the stone floor. For a moment, the walls seem to sigh.",
+        "\"This place has been feeding on the dead for a long time. Stay close to the lantern.\"",
+        className,
+        3,
+        3
+    );
+
+    MourningWraithEncounter(player, playerSkills, className);
+
+    if (player.getCurrentHP() <= 0) {
+        return;
+    }
+
+    restCamp(
+        player,
+        "Nameless Crypt",
+        "The Mourning Wraith fades into mist. The scratched-away name on the wall still pulls at your mind.",
+        "\"She knew you. Or she thought she did. Either way, we are getting close to something you forgot.\"",
+        className,
+        3,
+        3
+    );
+
+    SealedRevenantEncounter(player, playerSkills, className);
+
+    if (player.getCurrentHP() <= 0) {
+        return;
+    }
+
+    restCamp(
+        player,
+        "Broken Seal Chamber",
+        "The Sealed Revenant falls to one knee before turning to ash. The broken seal glows once, then cracks apart completely. For a moment, your reflection appears in the dark stone floor, but it smiles before you do.",
+        "\"I should have told you sooner,\" Able says. \"When I found you, that seal was clenched in your hand. I thought it was protecting you. Now I think it was holding something inside you.\"",
+        className,
+        4,
+        4
+    );
+
+    slowPrintLine("\nA memory returns.", 15);
+    slowPrintLine("Not a peaceful one.", 15);
+    slowPrintLine("You see your hands covered in blood that is not yours.", 15);
+    slowPrintLine("You hear people begging you to stop.", 15);
+    slowPrintLine("And beneath it all, you feel something inside you smiling.", 15);
+    slowPrintLine("\nThe name comes back like a curse:", 20);
+    slowPrintLine("The Bloodbound Urge.", 30);
+
+    slowPrintLine("\nAble stares at you carefully.", 15);
+    slowPrintLine("\"Whatever you are,\" he says, \"you still get to choose what you do next.\"", 15);
+
+    slowPrintLine("\n===== WORLD 3 COMPLETE =====", 15);
+
+    finalChoice(className);
 }

@@ -124,6 +124,9 @@ int main() {
         if (player.getCurrentHP() > 0) {
             worldTwo(player, getWarriorSkills(), "Warrior", playerName);
         }
+        if (player.getCurrentHP() > 0) {
+            worldThree(player, getWarriorSkills(), "Warrior", playerName);
+        }
     }
     
 
@@ -143,7 +146,11 @@ int main() {
         if (player.getCurrentHP() > 0) {
             worldTwo(player, getWizardSkills(), "Wizard", playerName);
         }
+        if (player.getCurrentHP() > 0) {
+        worldThree(player, getWizardSkills(), "Wizard", playerName);
+        }
     }
+
     else if (choice == 3) {
         Cleric player;
 
@@ -160,7 +167,11 @@ int main() {
         if (player.getCurrentHP() > 0) {
             worldTwo(player, getClericSkills(), "Cleric", playerName);
         }
+        if (player.getCurrentHP() > 0) {
+            worldThree(player, getClericSkills(), "Cleric", playerName);
+        }
     }
+    
     else if (choice == 4) {
         Rogue player;
 
@@ -176,6 +187,9 @@ int main() {
         );
         if (player.getCurrentHP() > 0) {
             worldTwo(player, getRogueSkills(), "Rogue", playerName);
+        }
+        if (player.getCurrentHP() > 0) {
+            worldThree(player, getRogueSkills(), "Rogue", playerName);
         }
     }
     return 0;
