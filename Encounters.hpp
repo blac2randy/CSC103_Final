@@ -638,6 +638,7 @@ void GoblinEncounter(PlayerType& player, vector<Skill> playerSkills, string clas
     sceneryLines.push_back("Only the scrape of crude goblin blades breaks the silence.");
     sceneryLines.push_back("Able shouts from behind you, \"Don't let them surround us!\"");
     sceneryLines.push_back("A cold wind whistles across the road.");
+    
     runEncounter(
         player,
         playerSkills,
@@ -704,6 +705,7 @@ void GoblinChieftainEncounter(PlayerType& player, vector<Skill> playerSkills, st
     sceneryLines.push_back("The chieftain raises his blade. It's stained silver gleams back at you, marking it's next victim.");
     sceneryLines.push_back("The chieftain snarls, refusing to let you leave his camp alive.");
 
+    printGoblinChiefArt();
     runEncounter(
         player,
         playerSkills,
@@ -789,6 +791,7 @@ void MireWitchEncounter(PlayerType& player, vector<Skill> playerSkills, string c
     sceneryLines.push_back("The witch whispers your name, though you never told her.");
     sceneryLines.push_back("For a moment, a piece of your memory flashes behind your eyes. You have forgotten it ");
 
+    printMireWitchArt();
     runEncounter(
         player,
         playerSkills,
@@ -830,6 +833,7 @@ void BoneCollectorEncounter(PlayerType& player, vector<Skill> playerSkills, stri
     sceneryLines.push_back("The creature drags its sack behind it, leaving white scratches on the stone.");
     sceneryLines.push_back("Skulls in the walls shift slighty as you pass.");
     sceneryLines.push_back("The Bone Collector clicks its teeth as if counting pieces.");
+
 
     runEncounter(
         player,
@@ -874,6 +878,7 @@ void SealedRevenantEncounter(PlayerType& player, vector<Skill> playerSkills, str
     sceneryLines.push_back("The revenant speaks in a hollow voice: \"Sealbreaker.\"");
     sceneryLines.push_back("A memory flashes through your mind: your hand on this same seal long ago.");
 
+    printSealedRevenantArt();
     runEncounter(
         player,
         playerSkills,
