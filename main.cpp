@@ -147,7 +147,7 @@ int main() {
             worldTwo(player, getWizardSkills(), "Wizard", playerName);
         }
         if (player.getCurrentHP() > 0) {
-        worldThree(player, getWizardSkills(), "Wizard", playerName);
+            worldThree(player, getWizardSkills(), "Wizard", playerName);
         }
     }
 
@@ -171,7 +171,7 @@ int main() {
             worldThree(player, getClericSkills(), "Cleric", playerName);
         }
     }
-    
+
     else if (choice == 4) {
         Rogue player;
 

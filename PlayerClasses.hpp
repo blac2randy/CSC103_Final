@@ -49,9 +49,6 @@ public:
         tarotINTBonus = 0;
         inventory.push_back("Health Potion");
         }
-        string getTarotBlessing() {
-        return tarotBlessing;
-    }
 
     void removeTarotEffects() {
         if (tarotHPBonus > 0) {
@@ -245,9 +242,6 @@ public:
         tarotINTBonus = 0;
         inventory.push_back("Health Potion");
     }
-    string getTarotBlessing() {
-    return tarotBlessing;
-}
 
     void removeTarotEffects() {
         if (tarotHPBonus > 0) {
@@ -441,10 +435,6 @@ public:
         inventory.push_back("Health Potion");
     }
 
-    string getTarotBlessing() {
-    return tarotBlessing;
-}
-
     void removeTarotEffects() {
         if (tarotHPBonus > 0) {
             setMaxHp(getMaxHP() - tarotHPBonus);
@@ -637,9 +627,6 @@ public:
         tarotINTBonus = 0;
         inventory.push_back("Health Potion");
     }
-    string getTarotBlessing() {
-    return tarotBlessing;
-}
 
     void removeTarotEffects() {
         if (tarotHPBonus > 0) {

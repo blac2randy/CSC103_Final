@@ -714,7 +714,7 @@ void SealedRevenantEncounter(PlayerType& player, vector<Skill> playerSkills, str
         className,
         createSealedRevenant(),
         "WORLD 3 BOSS: THE SEALED REVENANT",
-        "Deep beneath the catacombs, you find a circular chamber built around a broken magical seal. Chains hang from the ceiling, all leading to a kneeling undead noble. As you step closer, the seal reacts to you. The knight rises and speaks one word: \"Sealbreaker.\" Able looks at you, \"That symbol... it was on the thing I found with you. \"You were not sealed away to protect you. You were sealed away to protect everyone else.\"",
+        "Deep beneath the catacombs, you find a circular chamber built around a broken magical seal. Chains hang from the ceiling, all leading to a kneeling undead noble. As you step closer, the seal reacts to you. The knight rises and speaks one word: \"Sealbreaker.\" Able looks at you, shaken. \"That symbol... it was on the thing I found with you.\" The revenant points its blade at your chest. \"You were not sealed away to protect you. You were sealed away to protect everyone else.\"",
         sceneryLines,
         "The revenant is not just guarding the chamber. It recognizes you. Every word it speaks pulls a violent force from deep inside your mind."
     );
@@ -881,9 +881,7 @@ void tarotReading(PlayerType& player) {
         slowPrintLine("\nYou drew: THE SUN", 20);
         slowPrintLine("Warm light spreads through your chest.", 15);
 
-        player.increaseMaxHP(5);
-        player.heal(5);
-        player.setTarotBlessing("The Sun: +5 Max HP");
+        player.applyTarotBlessing("The Sun: +5 Max HP", 5, 0, 0);
 
         cout << "Permanent Effect: Max HP increased by 5.\n";
     }
@@ -891,9 +889,8 @@ void tarotReading(PlayerType& player) {
         slowPrintLine("\nYou drew: THE TOWER", 20);
         slowPrintLine("For a moment, you feel everything inside you break and rebuild.", 15);
 
-        player.increaseStrength(4);
+        player.applyTarotBlessing("The Tower: +4 STR, took 5 damage", 0, 4, 0);
         player.takeDamage(5);
-        player.setTarotBlessing("The Tower: +4 STR, took 5 damage");
 
         cout << "Permanent Effect: Strength increased by 4.\n";
         cout << "Drawback: You took 5 damage.\n";
@@ -902,8 +899,7 @@ void tarotReading(PlayerType& player) {
         slowPrintLine("\nYou drew: THE MOON", 20);
         slowPrintLine("A quiet voice whispers forgotten truths behind your eyes.", 15);
 
-        player.increaseIntellect(4);
-        player.setTarotBlessing("The Moon: +4 INT");
+        player.applyTarotBlessing("The Moon: +4 INT", 0, 0, 4);
 
         cout << "Permanent Effect: Intellect increased by 4.\n";
     }
@@ -911,9 +907,8 @@ void tarotReading(PlayerType& player) {
         slowPrintLine("\nYou drew: THE HANGED MAN", 20);
         slowPrintLine("Your body feels heavy, but your mind sharpens through sacrifice.", 15);
 
-        player.increaseIntellect(3);
+        player.applyTarotBlessing("The Hanged Man: +3 INT, took 3 damage", 0, 0, 3);
         player.takeDamage(3);
-        player.setTarotBlessing("The Hanged Man: +3 INT, took 3 damage");
 
         cout << "Permanent Effect: Intellect increased by 3.\n";
         cout << "Drawback: You took 3 damage.\n";
@@ -922,8 +917,7 @@ void tarotReading(PlayerType& player) {
         slowPrintLine("\nYou drew: STRENGTH", 20);
         slowPrintLine("Your grip tightens. Your fear becomes fuel.", 15);
 
-        player.increaseStrength(3);
-        player.setTarotBlessing("Strength: +3 STR");
+        player.applyTarotBlessing("Strength: +3 STR", 0, 3, 0);
 
         cout << "Permanent Effect: Strength increased by 3.\n";
     }
@@ -931,11 +925,8 @@ void tarotReading(PlayerType& player) {
         slowPrintLine("\nYou drew: DEATH", 20);
         slowPrintLine("The card does not mean the end. It means transformation.", 15);
 
-        player.increaseMaxHP(3);
-        player.increaseStrength(1);
-        player.increaseIntellect(1);
+        player.applyTarotBlessing("Death: +3 Max HP, +1 STR, +1 INT, took 4 damage", 3, 1, 1);
         player.takeDamage(4);
-        player.setTarotBlessing("Death: +3 Max HP, +1 STR, +1 INT, took 4 damage");
 
         cout << "Permanent Effect: Max HP increased by 3, Strength increased by 1, Intellect increased by 1.\n";
         cout << "Drawback: You took 4 damage.\n";
@@ -1002,7 +993,7 @@ void restCamp(PlayerType& player, string locationName, string sceneryText,
             }
         }
         else {
-            cout << "\nInvalid choice. Please choose 1-6.\n";
+            cout << "\nInvalid choice. Please choose 1-7.\n";
         }
     }
 }
@@ -1318,92 +1309,5 @@ void worldThree(PlayerType& player, vector<Skill> playerSkills, string className
 
     slowPrintLine("\n===== WORLD 3 COMPLETE =====", 15);
 
-    finalChoice();
-}
-template <typename PlayerType>
-void worldThree(PlayerType& player, vector<Skill> playerSkills, string className, string playerName) {
-    cout << "\n===== WORLD 3: THE CATACOMBS OF TARTARUS =====\n";
-    slowPrintLine("With the Witchwood behind you, the road sinks into low marshland and broken stone.", 15);
-    slowPrintLine("Ahead, ancient doors appear from the fog, seemingly to enter a tomb.", 15);
-    slowPrintLine("Able stops the carriage and pulls something from his coat: a broken seal marked with a strange symbol.", 15);
-    slowPrintLine("\"I found this on you when I picked you up,\" he says. \"I think it belongs to you.\"", 15);
-
-    GraveboundSoldierEncounter(player, playerSkills, className);
-
-    if (player.getCurrentHP() <= 0) {
-        return;
-    }
-
-    restCamp(
-        player,
-        "Catacomb Gate",
-        "The Gravebound Soldier falls apart, its armor sinking back into the mud. The ancient gate waits in silence.",
-        "\"That thing was guarding the entrance. I do not think we are trespassing by accident anymore.\"",
-        className,
-        3,
-        3
-    );
-
-    BoneCollectorEncounter(player, playerSkills, className);
-
-    if (player.getCurrentHP() <= 0) {
-        return;
-    }
-
-    restCamp(
-        player,
-        "Hall of EGRESS",
-        "The Bone Collector collapses, spilling old bones across the stone floor. For a moment, the walls seem to sigh.",
-        "\"This place has been feeding on the dead for a long time. Stay close to the lantern.\"",
-        className,
-        3,
-        3
-    );
-
-    MourningWraithEncounter(player, playerSkills, className);
-
-    if (player.getCurrentHP() <= 0) {
-        return;
-    }
-
-    restCamp(
-        player,
-        "Nameless Crypt",
-        "The Mourning Wraith fades into mist. The scratched-away name on the wall still pulls at your mind.",
-        "\"She knew you. Or she thought she did. Either way, we are getting close to something you forgot.\"",
-        className,
-        3,
-        3
-    );
-
-    SealedRevenantEncounter(player, playerSkills, className);
-
-    if (player.getCurrentHP() <= 0) {
-        return;
-    }
-
-    restCamp(
-        player,
-        "Broken Seal Chamber",
-        "The Sealed Revenant falls to one knee before turning to ash. The broken seal glows once, then cracks apart completely. For a moment, your reflection appears in the dark stone floor, but it smiles before you do.",
-        "\"I should have told you sooner,\" Able says. \"When I found you, that seal was clenched in your hand. I thought it was protecting you. Now I think it was holding something inside you.\"",
-        className,
-        4,
-        4
-    );
-
-    slowPrintLine("\nA memory returns.", 15);
-    slowPrintLine("Not a peaceful one.", 15);
-    slowPrintLine("You see your hands covered in blood that is not yours.", 15);
-    slowPrintLine("You hear people begging you to stop.", 15);
-    slowPrintLine("And beneath it all, you feel something inside you smiling.", 15);
-    slowPrintLine("\nThe name comes back like a curse:", 20);
-    slowPrintLine("The Bloodbound Urge.", 30);
-
-    slowPrintLine("\nAble stares at you carefully.", 15);
-    slowPrintLine("\"Whatever you are,\" he says, \"you still get to choose what you do next.\"", 15);
-
-    slowPrintLine("\n===== WORLD 3 COMPLETE =====", 15);
-
-    finalChoice(className);
+   finalChoice(className);
 }
