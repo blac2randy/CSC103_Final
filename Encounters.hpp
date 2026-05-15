@@ -705,7 +705,7 @@ void GoblinChieftainEncounter(PlayerType& player, vector<Skill> playerSkills, st
     sceneryLines.push_back("The chieftain raises his blade. It's stained silver gleams back at you, marking it's next victim.");
     sceneryLines.push_back("The chieftain snarls, refusing to let you leave his camp alive.");
 
-    printGoblinChiefArt();
+    printGoblinChief();
     runEncounter(
         player,
         playerSkills,
@@ -878,7 +878,7 @@ void SealedRevenantEncounter(PlayerType& player, vector<Skill> playerSkills, str
     sceneryLines.push_back("The revenant speaks in a hollow voice: \"Sealbreaker.\"");
     sceneryLines.push_back("A memory flashes through your mind: your hand on this same seal long ago.");
 
-    printSealedRevenantArt();
+    printSealedRevenant();
     runEncounter(
         player,
         playerSkills,
