@@ -23,5 +23,22 @@ public:
     }
     stattype getStrength() { return Strength; }
     stattype getIntellect() { return Intellect; }
+    void decreaseStrength(stattype amount) {
+    if (Strength > amount) {
+        Strength -= amount;
+    }
+    else {
+        Strength = 0;
+    }
+}
+
+    void decreaseIntellect(stattype amount) {
+    if (Intellect > amount) {
+        Intellect -= amount;
+    }
+    else {
+        Intellect = 0;
+    }
+}
 
 };

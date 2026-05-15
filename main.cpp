@@ -5,6 +5,8 @@
 #include "Skills.hpp"
 #include "Encounters.hpp"
 #include "TextHelp.hpp"
+#include <cstdlib>
+#include <ctime>
 using namespace std;
 
 string openingScene() {
@@ -98,7 +100,7 @@ int getClassChoice() {
 }
 
 int main() {
-   
+   srand(time(0));
     //Player Choice
     string playerName;
     int choice;
@@ -119,7 +121,11 @@ int main() {
             playerName,
             "The goblins scatter in a frenzy after seeing their scout defeated. You stand triumphantly as sunlight cuts through the trees."
         );
+        if (player.getCurrentHP() > 0) {
+            worldTwo(player, getWarriorSkills(), "Warrior", playerName);
+        }
     }
+    
 
     else if (choice == 2) {
         Wizard player;
@@ -134,6 +140,9 @@ int main() {
             playerName,
             "The goblin's body lies still on the road, singed by your arcane power. Faint sparks fade into the dirt."
         );
+        if (player.getCurrentHP() > 0) {
+            worldTwo(player, getWizardSkills(), "Wizard", playerName);
+        }
     }
     else if (choice == 3) {
         Cleric player;
@@ -148,6 +157,9 @@ int main() {
             playerName,
             "The goblin falls into your arms. For a moment, you see its soul drift away as you gently close its eyes."
         );
+        if (player.getCurrentHP() > 0) {
+            worldTwo(player, getClericSkills(), "Cleric", playerName);
+        }
     }
     else if (choice == 4) {
         Rogue player;
@@ -162,6 +174,9 @@ int main() {
             playerName,
             "The goblin's body lies lifeless on the road. You let out a nervous chuckle, thankful you lived to see another day."
         );
+        if (player.getCurrentHP() > 0) {
+            worldTwo(player, getRogueSkills(), "Rogue", playerName);
+        }
     }
     return 0;
 

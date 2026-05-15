@@ -20,10 +20,21 @@ private:
     vector<string> inventory;
     int gold;
 
+    string tarotBlessing;
+    int tarotHPBonus;
+    int tarotSTRBonus;
+    int tarotINTBonus;
 public:
     static const hptype HPGROWTH = (hptype)19u;
     static const stattype BASESTR = (stattype)4u;
     static const stattype BASEINT = (stattype)1u;
+
+    void setTarotBlessing(string blessingName) {
+    tarotBlessing = blessingName;
+    }
+    string getTarotBlessing() {
+        return tarotBlessing;
+    }
 
     Warrior() : hp(HPGROWTH, HPGROWTH), StatBlock(BASESTR, BASEINT) {
         level = 1;
@@ -31,7 +42,56 @@ public:
         xpToLevel = 30;
         maxLevel = 8;
         gold = 0;
+
+        tarotBlessing = "None";
+        tarotHPBonus = 0;
+        tarotSTRBonus = 0;
+        tarotINTBonus = 0;
         inventory.push_back("Health Potion");
+        }
+        string getTarotBlessing() {
+        return tarotBlessing;
+    }
+
+    void removeTarotEffects() {
+        if (tarotHPBonus > 0) {
+            setMaxHp(getMaxHP() - tarotHPBonus);
+        }
+
+        if (tarotSTRBonus > 0) {
+            decreaseStrength(tarotSTRBonus);
+        }
+
+        if (tarotINTBonus > 0) {
+            decreaseIntellect(tarotINTBonus);
+        }
+
+        tarotBlessing = "None";
+        tarotHPBonus = 0;
+        tarotSTRBonus = 0;
+        tarotINTBonus = 0;
+    }
+
+    void applyTarotBlessing(string blessingName, int hpBonus, int strBonus, int intBonus) {
+        removeTarotEffects();
+
+        tarotBlessing = blessingName;
+        tarotHPBonus = hpBonus;
+        tarotSTRBonus = strBonus;
+        tarotINTBonus = intBonus;
+
+        if (tarotHPBonus > 0) {
+            increaseMaxHP(tarotHPBonus);
+            heal(tarotHPBonus);
+        }
+
+        if (tarotSTRBonus > 0) {
+            increaseStrength(tarotSTRBonus);
+        }
+
+        if (tarotINTBonus > 0) {
+            increaseIntellect(tarotINTBonus);
+        }
     }
     int getLevel() {
         return level;
@@ -155,10 +215,22 @@ private:
     vector<string> inventory;
     int gold;
 
+    string tarotBlessing;
+    int tarotHPBonus;
+    int tarotSTRBonus;
+    int tarotINTBonus;
+
 public:
     static const hptype HPGROWTH = (hptype)9u;
     static const stattype BASESTR = (stattype)1u;
     static const stattype BASEINT = (stattype)4u;
+
+    void setTarotBlessing(string blessingName) {
+    tarotBlessing = blessingName;
+    }
+    string getTarotBlessing() {
+        return tarotBlessing;
+    }
 
     Wizard() : hp(HPGROWTH, HPGROWTH), StatBlock(BASESTR, BASEINT) {
         level = 1;
@@ -166,7 +238,56 @@ public:
         xpToLevel = 30;
         maxLevel = 8;
         gold = 0;
+
+        tarotBlessing = "None";
+        tarotHPBonus = 0;
+        tarotSTRBonus = 0;
+        tarotINTBonus = 0;
         inventory.push_back("Health Potion");
+    }
+    string getTarotBlessing() {
+    return tarotBlessing;
+}
+
+    void removeTarotEffects() {
+        if (tarotHPBonus > 0) {
+            setMaxHp(getMaxHP() - tarotHPBonus);
+        }
+
+        if (tarotSTRBonus > 0) {
+            decreaseStrength(tarotSTRBonus);
+        }
+
+        if (tarotINTBonus > 0) {
+            decreaseIntellect(tarotINTBonus);
+        }
+
+        tarotBlessing = "None";
+        tarotHPBonus = 0;
+        tarotSTRBonus = 0;
+        tarotINTBonus = 0;
+    }
+
+    void applyTarotBlessing(string blessingName, int hpBonus, int strBonus, int intBonus) {
+        removeTarotEffects();
+
+        tarotBlessing = blessingName;
+        tarotHPBonus = hpBonus;
+        tarotSTRBonus = strBonus;
+        tarotINTBonus = intBonus;
+
+        if (tarotHPBonus > 0) {
+            increaseMaxHP(tarotHPBonus);
+            heal(tarotHPBonus);
+        }
+
+        if (tarotSTRBonus > 0) {
+            increaseStrength(tarotSTRBonus);
+        }
+
+        if (tarotINTBonus > 0) {
+            increaseIntellect(tarotINTBonus);
+        }
     }
     int getLevel() {
         return level;
@@ -260,43 +381,18 @@ void removeItem(int index) {
             heal(10);
             cout << "You used a Health Potion and restored 10 HP.\n";
 
-            inventory.erase(inventory.begin() + index);
+            removeItem(index);
             return true;
         }
         else if (item == "Greater Health Potion") {
             heal(25);
             cout << "You used a Greater Health Potion and restored 25 HP.\n";
 
-            inventory.erase(inventory.begin() + index);
-            return true;
-        }
-        else if (item == "Titan's Blood") {
-            increaseStrength(2);
-            cout << "You drank the cursed blood. +20% skill damage for the rest of battle.\n";
-
-            inventory.erase(inventory.begin() + index);
-            return true;
-        }
-        else if (item == "Cursed Beetle Larvae") {
-            increaseIntellect(2);
-            cout << "You bit into the insect larvae. Enemy damage reduced by 20% for the rest of battle.\n";
-
-            inventory.erase(inventory.begin() + index);
-            return true;
-        }
-        else if (item == "Dancer's Talisman") {
-            heal(30);
-            increaseStrength(2);
-            increaseIntellect(2);
-
-            cout << "You channel your will into the keepsake.\n";
-            cout << "restores 30 HP and gives +20% skill damage for the rest of battle, enemy deals 20% less damage for rest of battle\n";
-
-            inventory.erase(inventory.begin() + index);
+            removeItem(index);
             return true;
         }
 
-        cout << item << " cannot be used right now.\n";
+        cout << item << " can only be used during battle.\n";
         return false;
     }
 };
@@ -314,10 +410,22 @@ private:
     vector<string> inventory;
     int gold;
 
+    string tarotBlessing;
+    int tarotHPBonus;
+    int tarotSTRBonus;
+    int tarotINTBonus;
+
 public:
     static const hptype HPGROWTH = (hptype)13u;
     static const stattype BASESTR = (stattype)2u;
     static const stattype BASEINT = (stattype)3u;
+    
+    void setTarotBlessing(string blessingName) {
+    tarotBlessing = blessingName;
+    }
+    string getTarotBlessing() {
+        return tarotBlessing;
+    }
 
     Cleric() : hp(HPGROWTH, HPGROWTH), StatBlock(BASESTR, BASEINT) {
         level = 1;
@@ -325,7 +433,57 @@ public:
         xpToLevel = 30;
         maxLevel = 8;
         gold = 0;
+
+        tarotBlessing = "None";
+        tarotHPBonus = 0;
+        tarotSTRBonus = 0;
+        tarotINTBonus = 0;
         inventory.push_back("Health Potion");
+    }
+
+    string getTarotBlessing() {
+    return tarotBlessing;
+}
+
+    void removeTarotEffects() {
+        if (tarotHPBonus > 0) {
+            setMaxHp(getMaxHP() - tarotHPBonus);
+        }
+
+        if (tarotSTRBonus > 0) {
+            decreaseStrength(tarotSTRBonus);
+        }
+
+        if (tarotINTBonus > 0) {
+            decreaseIntellect(tarotINTBonus);
+        }
+
+        tarotBlessing = "None";
+        tarotHPBonus = 0;
+        tarotSTRBonus = 0;
+        tarotINTBonus = 0;
+    }
+
+    void applyTarotBlessing(string blessingName, int hpBonus, int strBonus, int intBonus) {
+        removeTarotEffects();
+
+        tarotBlessing = blessingName;
+        tarotHPBonus = hpBonus;
+        tarotSTRBonus = strBonus;
+        tarotINTBonus = intBonus;
+
+        if (tarotHPBonus > 0) {
+            increaseMaxHP(tarotHPBonus);
+            heal(tarotHPBonus);
+        }
+
+        if (tarotSTRBonus > 0) {
+            increaseStrength(tarotSTRBonus);
+        }
+
+        if (tarotINTBonus > 0) {
+            increaseIntellect(tarotINTBonus);
+        }
     }
     int getLevel() {
         return level;
@@ -420,43 +578,18 @@ void removeItem(int index) {
             heal(10);
             cout << "You used a Health Potion and restored 10 HP.\n";
 
-            inventory.erase(inventory.begin() + index);
+            removeItem(index);
             return true;
         }
         else if (item == "Greater Health Potion") {
             heal(25);
             cout << "You used a Greater Health Potion and restored 25 HP.\n";
 
-            inventory.erase(inventory.begin() + index);
-            return true;
-        }
-        else if (item == "Titan's Blood") {
-            increaseStrength(2);
-            cout << "You drank the cursed blood. +20% skill damage for the rest of battle.\n";
-
-            inventory.erase(inventory.begin() + index);
-            return true;
-        }
-        else if (item == "Cursed Beetle Larvae") {
-            increaseIntellect(2);
-            cout << "You bit into the insect larvae. Enemy damage reduced by 20% for the rest of battle.\n";
-
-            inventory.erase(inventory.begin() + index);
-            return true;
-        }
-        else if (item == "Dancer's Talisman") {
-            heal(30);
-            increaseStrength(2);
-            increaseIntellect(2);
-
-            cout << "You channel your will into the keepsake.\n";
-            cout << "restores 30 HP and gives +20% skill damage for the rest of battle, enemy deals 20% less damage for rest of battle\n";
-
-            inventory.erase(inventory.begin() + index);
+            removeItem(index);
             return true;
         }
 
-        cout << item << " cannot be used right now.\n";
+        cout << item << " can only be used during battle.\n";
         return false;
     }
 };
@@ -474,10 +607,22 @@ class Rogue : public hp, public StatBlock {
     vector<string> inventory;
     int gold;
 
+    string tarotBlessing;
+    int tarotHPBonus;
+    int tarotSTRBonus;
+    int tarotINTBonus;
+
 public:
     static const hptype HPGROWTH = (hptype)10u;
     static const stattype BASESTR = (stattype)3u;
     static const stattype BASEINT = (stattype)2u;
+
+    void setTarotBlessing(string blessingName) {
+    tarotBlessing = blessingName;
+    }
+    string getTarotBlessing() {
+        return tarotBlessing;
+    }
 
     Rogue() : hp(HPGROWTH, HPGROWTH), StatBlock(BASESTR, BASEINT) {
         level = 1;
@@ -485,7 +630,56 @@ public:
         xpToLevel = 30;
         maxLevel = 8;
         gold = 0;
+
+        tarotBlessing = "None";
+        tarotHPBonus = 0;
+        tarotSTRBonus = 0;
+        tarotINTBonus = 0;
         inventory.push_back("Health Potion");
+    }
+    string getTarotBlessing() {
+    return tarotBlessing;
+}
+
+    void removeTarotEffects() {
+        if (tarotHPBonus > 0) {
+            setMaxHp(getMaxHP() - tarotHPBonus);
+        }
+
+        if (tarotSTRBonus > 0) {
+            decreaseStrength(tarotSTRBonus);
+        }
+
+        if (tarotINTBonus > 0) {
+            decreaseIntellect(tarotINTBonus);
+        }
+
+        tarotBlessing = "None";
+        tarotHPBonus = 0;
+        tarotSTRBonus = 0;
+        tarotINTBonus = 0;
+    }
+
+    void applyTarotBlessing(string blessingName, int hpBonus, int strBonus, int intBonus) {
+        removeTarotEffects();
+
+        tarotBlessing = blessingName;
+        tarotHPBonus = hpBonus;
+        tarotSTRBonus = strBonus;
+        tarotINTBonus = intBonus;
+
+        if (tarotHPBonus > 0) {
+            increaseMaxHP(tarotHPBonus);
+            heal(tarotHPBonus);
+        }
+
+        if (tarotSTRBonus > 0) {
+            increaseStrength(tarotSTRBonus);
+        }
+
+        if (tarotINTBonus > 0) {
+            increaseIntellect(tarotINTBonus);
+        }
     }
     int getLevel() {
         return level;
@@ -580,43 +774,19 @@ string getItem(int index) {
             heal(10);
             cout << "You used a Health Potion and restored 10 HP.\n";
 
-            inventory.erase(inventory.begin() + index);
+            removeItem(index);
             return true;
         }
         else if (item == "Greater Health Potion") {
             heal(25);
             cout << "You used a Greater Health Potion and restored 25 HP.\n";
 
-            inventory.erase(inventory.begin() + index);
-            return true;
-        }
-        else if (item == "Titan's Blood") {
-            increaseStrength(2);
-            cout << "You drank the cursed blood. +20% skill damage for the rest of battle.\n";
-
-            inventory.erase(inventory.begin() + index);
-            return true;
-        }
-        else if (item == "Cursed Beetle Larvae") {
-            increaseIntellect(2);
-            cout << "You bit into the insect larvae. Enemy damage reduced by 20% for the rest of battle.\n";
-
-            inventory.erase(inventory.begin() + index);
-            return true;
-        }
-        else if (item == "Dancer's Talisman") {
-            heal(30);
-            increaseStrength(2);
-            increaseIntellect(2);
-
-            cout << "You channel your will into the keepsake.\n";
-            cout << "restores 30 HP and gives +20% skill damage for the rest of battle, enemy deals 20% less damage for rest of battle\n";
-
-            inventory.erase(inventory.begin() + index);
+            removeItem(index);
             return true;
         }
 
-        cout << item << " cannot be used right now.\n";
+        cout << item << " can only be used during battle.\n";
         return false;
     }
+    
 };
