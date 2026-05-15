@@ -249,24 +249,32 @@ void battle(PlayerType& player,
                             }
 
                             // Enemy has a chance to guard and reduce damage taken.
-                            int guardRoll = rand() % 100 + 1;
+                            // Guard defense scales off the monster's Strength.
+                            int monsterDefense = 0;
                             bool enemyGuarded = false;
+
+                            int guardRoll = rand() % 100 + 1;
 
                             if (guardRoll <= 20) {
                                 enemyGuarded = true;
-                                damage = damage * 75 / 100;
+                                monsterDefense = enemy.getStrength() / 2;
 
+                                if (monsterDefense < 1) {
+                                    monsterDefense = 1;
+                                }
+
+                                damage = damage - monsterDefense;
                                 if (damage < 1) {
                                     damage = 1;
                                 }
                             }
-
                         cout << "\nYou use " << chosenSkill.name << "!\n";
 
                         if (chosenSkill.effectType == "MULTI_HIT" || chosenSkill.effectType == "MULTI_HIT_MAGIC") {
                             cout << "You strike " << chosenSkill.value << " times!\n";
                         }
-                        cout << enemy.getName() << " brushes off"
+                        if (enemyGuarded) {
+                        cout << enemy.getName() << " guards the attack and blocks "
                         << monsterDefense << " damage.\n";
 
                         cout << "You deal " << damage
@@ -284,6 +292,7 @@ void battle(PlayerType& player,
 
             turnPassed = true;
         }
+    }
 
         // Choice 2: View Stats
         else if (choice == 2) {
