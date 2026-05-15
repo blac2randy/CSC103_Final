@@ -44,7 +44,7 @@ string openingScene() {
     slowPrintLine("You remember being one of four things:", 40);
     cout << endl;
 
-    slowPrintLine("A legendary warrior who took down opponents and monsters said to be undefeatable.", 40);
+    slowPrintLine("A legendary warrior who took down opponents and monsters with unrivaled tenacity", 40);
     cout << endl;
 
     slowPrintLine("A great wizard whose magic was drawn from the Weave and blessed by the goddess Mystra.", 40);
@@ -53,7 +53,7 @@ string openingScene() {
     slowPrintLine("A miracle cleric whose healing power could cure deadly illnesses and restore the wounded.", 40);
     cout << endl;
 
-    slowPrintLine("Or a shadow in the night, a rogue unmatched in stealth and feared across the land.", 40);
+    slowPrintLine("Or a shadow in the night, a rogue unmatched in stealth and a master in dark tactics", 40);
     cout << endl;
 
     slowPrintLine("The goblins draw their weapons.", 40);
@@ -76,7 +76,7 @@ void printClassMenu(){
     cout << "   Balanced HP and intellect. Best for support and survival.\n\n";
 
     cout << "4. Rogue\n";
-    cout << "   Strong physical damage. Best for quick attacks.\n\n";
+    cout << "   Strong physical damage. Capable of critical hits.\n\n";
 
     cout << "Enter choice: ";
     

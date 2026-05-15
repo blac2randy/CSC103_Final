@@ -25,8 +25,8 @@ private:
     int tarotSTRBonus;
     int tarotINTBonus;
 public:
-    static const hptype HPGROWTH = (hptype)19u;
-    static const stattype BASESTR = (stattype)4u;
+    static const hptype HPGROWTH = (hptype)17u;
+    static const stattype BASESTR = (stattype)3u;
     static const stattype BASEINT = (stattype)1u;
 
     void setTarotBlessing(string blessingName) {

@@ -45,10 +45,10 @@ vector<Skill> getWizardSkills() {
     vector<Skill> skills;
 
     skills.push_back(Skill("Ignis", "A small burst of fire magic.", "INT_DAMAGE", 1, 0, 0, 0));
-    skills.push_back(Skill("Cloud of Daggers", "Summon daggers that slice into your enemy.", "FLAT_DAMAGE", 2, 6, 0, 2));
-    skills.push_back(Skill("Witch Bolt", "A bolt of lightning that deals 10 damage.", "FLAT_DAMAGE", 4, 10, 0, 3));
-    skills.push_back(Skill("Shield", "Enemies deal 30% less damage for 3 turns.", "REDUCE_DAMAGE_TAKEN", 6, 30, 3, 5));
-    skills.push_back(Skill("Hunger of Hadar", "A sphere of cold blackness, teeming with unknown horrors. deals 20 damage.", "FLAT_DAMAGE", 8, 20, 0, 5));
+    skills.push_back(Skill("Magic Missile", "Summon 3 bolts of magic to strike the enemy.", "MULTI_HIT_MAGIC", 2, 2, 0, 2));
+    skills.push_back(Skill("Focus", "Refine your control on the weave. Deal 30% more damage for 2 turns", "BOOST_DAMAGE", 4, 30, 2, 3));
+    skills.push_back(Skill("Fireball", "A powerful explosion of flame. Deals 2x Intellect damage.", "INT_MULTIPLIER", 6, 2, 0, 3));
+    skills.push_back(Skill("Hunger of Hadar", "A sphere of cold blackness, teeming with unknown horrors. deals 20 damage.", "INT_MULTIPLIER", 8, 3, 0, 5));
 
     return skills;
 }
@@ -69,10 +69,10 @@ vector<Skill> getRogueSkills() {
     vector<Skill> skills;
 
     skills.push_back(Skill("Quick Step", "A fast dagger attack.", "STR_DAMAGE", 1, 0, 0, 0));
-    skills.push_back(Skill("Vicious Mockrey", "Confidently insult your enemy.", "FLAT_DAMAGE", 2, 8, 0, 2));
+    skills.push_back(Skill("Vicious Mockrey", "Confidently insult your enemy and deal emotional damage", "FLAT_DAMAGE", 2, 6, 0, 2));
     skills.push_back(Skill("Finesse", "Improved footwork, Deal 20% more damage and receive 20% less damage for 3 turns.", "BOOST_AND_REDUCE", 4, 20, 3, 5));
-    skills.push_back(Skill("Dirty Trick", "A cowardly attack from the shadows dealing 12 damage.", "FLAT_DAMAGE", 6, 12, 0, 3));
-    skills.push_back(Skill("Dread Ambusher", "A direct assault that deals 15 damage.", "FLAT_DAMAGE", 8, 15, 0, 4));
+    skills.push_back(Skill("Dirty Trick", "A cowardly attack from the shadows dealing 2x damage.", "STR_MULTIPLIER", 6, 2, 0, 3));
+    skills.push_back(Skill("Dread Ambusher", "A deadly ambush that hits 3 times before the enemy can react.", "MULTI_HIT", 8, 3, 0, 5));
 
     return skills;
 }
@@ -94,11 +94,9 @@ void showAvailableSkills(vector<Skill> skills, int playerLevel) {
 }
 int percentDamage(int targetMaxHP, int percent) {
     int damage = targetMaxHP * percent / 100;
-
     if (damage < 1) {
         damage = 1;
     }
-
     return damage;
 }
 
@@ -122,8 +120,14 @@ int calculateSkillDamage(Skill skill, int strength, int intellect, int enemyMaxH
     else if (skill.effectType == "MULTI_HIT") {
         return strength * skill.value;
     }
+    else if (skill.effectType == "MULTI_HIT_MAGIC") {
+        return intellect * skill.value;
+    }
     else if (skill.effectType == "STR_MULTIPLIER") {
         return strength * skill.value;
+    }
+    else if (skill.effectType == "INT_MULTIPLIER") {
+        return intellect * skill.value;
     }
     else if (skill.effectType == "STR_PLUS_PERCENT") {
         return strength + percentDamage(enemyMaxHP, skill.value);

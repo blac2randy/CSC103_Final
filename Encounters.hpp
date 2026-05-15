@@ -13,9 +13,6 @@ using namespace std;
 
 // Prints changing scenery based on the battle turn, rotates the text to fit imagery
 
-/***Remember to cite ChatGPT May 12 2026, How to build a template that prints for 
-different encounters ***/
-
 void printBattleScenery(vector<string> sceneryLines, int turn) {
     if (sceneryLines.size() == 0) {
         return;
@@ -106,17 +103,39 @@ bool useBattleItem(PlayerType& player, int itemChoice,
         player.removeItem(index);
         return true;
     }
-
     cout << item << " cannot be used right now.\n";
     return false;
 }
-
-//Battle Function start
+// Critical Hit function unique only to rogue
 template <typename PlayerType>
-void battle(PlayerType& player, Monster enemy, vector<Skill> playerSkills, string className,vector<string> sceneryLines, string observeText) {
+int applyCriticalHit(PlayerType& player, int damage) {
+    return damage;
+}
+int applyCriticalHit(Rogue& player, int damage) {
+    int roll = rand() % 100 + 1;
+
+    if (roll <= 25) {
+        cout << "\nCRITICAL HIT!\n";
+        cout << "Your rogue instincts find a weak point!\n";
+        return damage * 2;
+    }
+
+    return damage;
+}
+
+// Battle Function Start
+template <typename PlayerType>
+void battle(PlayerType& player,
+            Monster enemy,
+            vector<Skill> playerSkills,
+            string className,
+            vector<string> sceneryLines,
+            string observeText) {
     int turn = 1;
+
     int damageBoostPercent = 0;
     int damageBoostTurns = 0;
+
     int damageReductionPercent = 0;
     int damageReductionTurns = 0;
 
@@ -131,8 +150,11 @@ void battle(PlayerType& player, Monster enemy, vector<Skill> playerSkills, strin
 
         printBattleScenery(sceneryLines, turn);
 
-        cout << "\n\nYour HP: " << player.getCurrentHP() << "/" << player.getMaxHP() << endl;
-        cout << enemy.getName() << " HP: " << enemy.getCurrentHP() << "/" << enemy.getMaxHP() << endl;
+        cout << "\n\nYour HP: " << player.getCurrentHP()
+             << "/" << player.getMaxHP() << endl;
+
+        cout << enemy.getName() << " HP: "
+             << enemy.getCurrentHP() << "/" << enemy.getMaxHP() << endl;
 
         cout << "\nWhat will you do?\n";
         cout << "1. Use Skill\n";
@@ -142,12 +164,12 @@ void battle(PlayerType& player, Monster enemy, vector<Skill> playerSkills, strin
         cout << "5. Observe Surroundings\n";
         cout << "Enter choice: ";
 
-    //Choice Logic
         int choice;
         cin >> choice;
 
         bool turnPassed = false;
 
+        // Choice 1: Use Skill
         if (choice == 1) {
             showAvailableSkills(playerSkills, player.getLevel());
 
@@ -157,66 +179,101 @@ void battle(PlayerType& player, Monster enemy, vector<Skill> playerSkills, strin
 
             int index = skillChoice - 1;
 
-    if (index >= 0 && index < static_cast<int>(playerSkills.size()) &&
-        player.getLevel() >= playerSkills[index].unlockLevel) {
+            bool validSkill =
+                index >= 0 &&
+                index < static_cast<int>(playerSkills.size()) &&
+                player.getLevel() >= playerSkills[index].unlockLevel;
 
-        if (playerSkills[index].currentCooldown > 0) {
-            cout << "\n" << playerSkills[index].name << " is on cooldown for "
-                << playerSkills[index].currentCooldown << " more turn(s).\n";
-        }
-        else {
-            Skill chosenSkill = playerSkills[index];
+            if (validSkill) {
+                if (playerSkills[index].currentCooldown > 0) {
+                    cout << "\n" << playerSkills[index].name
+                         << " is on cooldown for "
+                         << playerSkills[index].currentCooldown
+                         << " more turn(s).\n";
+                }
+                else {
+                    Skill chosenSkill = playerSkills[index];
 
-            if (chosenSkill.effectType == "BOOST_DAMAGE") {
-                damageBoostPercent = chosenSkill.value;
-                damageBoostTurns = chosenSkill.duration;
+                    if (chosenSkill.effectType == "BOOST_DAMAGE") {
+                        damageBoostPercent = chosenSkill.value;
+                        damageBoostTurns = chosenSkill.duration;
 
-                cout << "\nYou use " << chosenSkill.name << "!\n";
-                cout << "Your damage increases by " << damageBoostPercent
-                    << "% for " << damageBoostTurns << " turns.\n";
-            }
-            else if (chosenSkill.effectType == "REDUCE_DAMAGE_TAKEN") {
-                damageReductionPercent = chosenSkill.value;
-                damageReductionTurns = chosenSkill.duration;
+                        cout << "\nYou use " << chosenSkill.name << "!\n";
+                        cout << "Your damage increases by "
+                             << damageBoostPercent << "% for "
+                             << damageBoostTurns << " turns.\n";
+                    }
+                    else if (chosenSkill.effectType == "REDUCE_DAMAGE_TAKEN") {
+                        damageReductionPercent = chosenSkill.value;
+                        damageReductionTurns = chosenSkill.duration;
 
-                cout << "\nYou use " << chosenSkill.name << "!\n";
-                cout << "Enemy damage is reduced by " << damageReductionPercent
-                    << "% for " << damageReductionTurns << " turns.\n";
+                        cout << "\nYou use " << chosenSkill.name << "!\n";
+                        cout << "Enemy damage is reduced by "
+                             << damageReductionPercent << "% for "
+                             << damageReductionTurns << " turns.\n";
+                    }
+                    else if (chosenSkill.effectType == "BOOST_AND_REDUCE") {
+                        damageBoostPercent = chosenSkill.value;
+                        damageBoostTurns = chosenSkill.duration;
+
+                        damageReductionPercent = chosenSkill.value;
+                        damageReductionTurns = chosenSkill.duration;
+
+                        cout << "\nYou use " << chosenSkill.name << "!\n";
+                        cout << "Your damage increases by "
+                             << damageBoostPercent << "% for "
+                             << damageBoostTurns << " turns.\n";
+                        cout << "Enemy damage is reduced by "
+                             << damageReductionPercent << "% for "
+                             << damageReductionTurns << " turns.\n";
+                    }
+                    else {
+                        int damage = calculateSkillDamage(
+                            chosenSkill,
+                            player.getStrength(),
+                            player.getIntellect(),
+                            enemy.getMaxHP()
+                        );
+                        damage = applyCriticalHit(player, damage);
+
+                        // Applies active damage boost from skills/items.
+                        if (damageBoostTurns > 0 || damageBoostTurns == -1) {
+                            damage = damage * (100 + damageBoostPercent) / 100;
+                        }
+
+                        cout << "\nYou use " << chosenSkill.name << "!\n";
+
+                        if (chosenSkill.effectType == "MULTI_HIT") {
+                            cout << "You strike " << chosenSkill.value << " times!\n";
+                        }
+
+                        cout << "You deal " << damage
+                             << " damage to " << enemy.getName() << ".\n";
+
+                        enemy.takeDamage(damage);
+                    }
+
+                    playerSkills[index].currentCooldown = playerSkills[index].cooldown;
+                }
             }
             else {
-                int damage = calculateSkillDamage(
-                    chosenSkill,
-                    player.getStrength(),
-                    player.getIntellect(),
-                    enemy.getMaxHP()
-                );
-            if (damageBoostTurns > 0 || damageBoostTurns == -1) {
-                damage = damage * (100 + damageBoostPercent) / 100;
-                }
-
-                cout << "\nYou use " << chosenSkill.name << "!\n";
-                if (chosenSkill.effectType == "MULTI_HIT") {
-                    cout << "You strike " << chosenSkill.value << " times!\n";
-                }
-
-                cout << "You deal " << damage << " damage to " << enemy.getName() << ".\n";
-                enemy.takeDamage(damage);
+                cout << "\nInvalid or locked skill. You hesitate and lose your chance to attack.\n";
             }
-        playerSkills[index].currentCooldown = playerSkills[index].cooldown;
-        }
-    }
-        else {
-            cout << "\nInvalid or locked skill. You hesitate and lose your chance to attack.\n";
-        }
+
             turnPassed = true;
         }
+
+        // Choice 2: View Stats
         else if (choice == 2) {
             showBattleStats(player, className);
         }
+
+        // Choice 3: View Inventory
         else if (choice == 3) {
             showBattleInventory(player);
         }
 
+        // Choice 4: Use Item
         else if (choice == 4) {
             showBattleInventory(player);
 
@@ -235,46 +292,59 @@ void battle(PlayerType& player, Monster enemy, vector<Skill> playerSkills, strin
 
             if (usedItem) {
                 cout << "Current HP: " << player.getCurrentHP()
-                    << "/" << player.getMaxHP() << endl;
+                     << "/" << player.getMaxHP() << endl;
                 turnPassed = true;
             }
             else {
                 cout << "No item was used.\n";
             }
         }
+
+        // Choice 5: Observe Surroundings
+  
         else if (choice == 5) {
             slowPrintLine("\n" + observeText, 12);
             turnPassed = true;
         }
+
+        // Invalid Choice
         else {
             cout << "\nInvalid choice. You hesitate.\n";
             turnPassed = true;
         }
 
+        // Stop enemy turn if enemy was defeated.
         if (enemy.isDefeated()) {
             break;
         }
 
+        // Enemy Turn
         if (turnPassed) {
             int enemyDamage = enemy.getStrength();
+
             if (damageReductionTurns > 0 || damageReductionTurns == -1) {
                 enemyDamage = enemyDamage * (100 - damageReductionPercent) / 100;
-            
+
                 if (enemyDamage < 1) {
                     enemyDamage = 1;
                 }
+
                 cout << "\nYour defense is boosted!\n";
             }
+
             cout << "\n" << enemy.getName() << " lunges forward and attacks!\n";
             cout << enemy.getName() << " deals " << enemyDamage << " damage.\n";
 
             player.takeDamage(enemyDamage);
-            //Reduce cooldown timers
+
+            // Reduce skill cooldown timers.
             for (int i = 0; i < static_cast<int>(playerSkills.size()); i++) {
                 if (playerSkills[i].currentCooldown > 0) {
                     playerSkills[i].currentCooldown--;
                 }
             }
+
+            // Reduce temporary boost timers.
             if (damageBoostTurns > 0) {
                 damageBoostTurns--;
             }
@@ -286,6 +356,7 @@ void battle(PlayerType& player, Monster enemy, vector<Skill> playerSkills, strin
         }
     }
 
+    // Battle Result
     if (player.getCurrentHP() > 0) {
         cout << "\n===== VICTORY =====\n";
         slowPrintLine("You defeated " + enemy.getName() + "!", 15);
@@ -295,6 +366,7 @@ void battle(PlayerType& player, Monster enemy, vector<Skill> playerSkills, strin
 
         cout << "You found " << enemy.getGoldReward() << " gold.\n";
         player.gainGold(enemy.getGoldReward());
+
         cout << "Current Gold: " << player.getGold() << endl;
     }
     else {
@@ -303,7 +375,8 @@ void battle(PlayerType& player, Monster enemy, vector<Skill> playerSkills, strin
         slowPrintLine("Able shouts your name, but the sound fades into darkness.", 20);
     }
 }
-//Battle Function end
+// Battle Function End
+
 
 //Encounter System
 /* Basically I reworked the first encounter to work as a template for future encounters  */
@@ -326,7 +399,7 @@ Monster createGoblin() {
         2,  // Strength
         0,  //Intellect
         15, //XP reward
-        5 //Gold
+        5   //Gold
     );
 }
 
@@ -334,7 +407,7 @@ Monster createHobgoblin() {
     return Monster(
         "Hobgoblin",
         "A disciplined goblinoid warrior wearing cracked leather armor and a wolf skull helm. He carries a rusted serrated shortsword and a small wooden buckler.",
-        20, 
+        24, 
         4,   
         0,   
         20,  
@@ -346,9 +419,9 @@ Monster createGoblinShaman() {
     return Monster(
         "Goblin Shaman",
         "A hunched goblin covered in bone charms and faded red paint. Arcane flows sickly through it's crooked staff.",
-        24, 
-        2,  
-        4,  
+        28, 
+        3,  
+        5,  
         25, 
         10  
     );
@@ -357,8 +430,8 @@ Monster createGoblinChief() {
     return Monster(
         "Goblin Chief",
         "A massive goblin wrapped in armor and animal bones. He carries a heavy cleaver stained of bloof from numerous battles.(Do you even lift bro)",
-        40, 
-        6,  
+        48, 
+        7,  
         2,  
         35, 
         20 
