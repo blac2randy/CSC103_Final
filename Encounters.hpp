@@ -166,7 +166,6 @@ void battle(PlayerType& player,
 
         int choice;
         cin >> choice;
-
         bool turnPassed = false;
 
         // Choice 1: Use Skill
@@ -241,11 +240,20 @@ void battle(PlayerType& player,
                             damage = damage * (100 + damageBoostPercent) / 100;
                         }
 
+                        //Monster's defense scaling off strength
+                        int monsterDefense = enemy.getStrength() / 3;
+                        damage = damage - monsterDefense;
+                        if (damage < 1) {
+                            damage = 1;
+                        }
+
                         cout << "\nYou use " << chosenSkill.name << "!\n";
 
-                        if (chosenSkill.effectType == "MULTI_HIT") {
+                        if (chosenSkill.effectType == "MULTI_HIT" || chosenSkill.effectType == "MULTI_HIT_MAGIC") {
                             cout << "You strike " << chosenSkill.value << " times!\n";
                         }
+                        cout << enemy.getName() << " brushes off"
+                        << monsterDefense << " damage.\n";
 
                         cout << "You deal " << damage
                              << " damage to " << enemy.getName() << ".\n";
@@ -322,13 +330,17 @@ void battle(PlayerType& player,
         if (turnPassed) {
             int enemyDamage = enemy.getStrength();
 
+            if (enemy.getIntellect() > enemyDamage) {
+                enemyDamage = enemy.getIntellect();
+            }
+            enemyDamage += 1;
+
             if (damageReductionTurns > 0 || damageReductionTurns == -1) {
                 enemyDamage = enemyDamage * (100 - damageReductionPercent) / 100;
 
                 if (enemyDamage < 1) {
                     enemyDamage = 1;
                 }
-
                 cout << "\nYour defense is boosted!\n";
             }
 
@@ -395,8 +407,8 @@ Monster createGoblin() {
     return Monster(
         "Goblin Scout",
         "A small goblin carrying a rusty dagger. Its eyes dart between you and the carriage.",
-        12, //HP
-        2,  // Strength
+        14, //HP
+        3,  // Strength
         0,  //Intellect
         15, //XP reward
         5   //Gold
@@ -407,8 +419,8 @@ Monster createHobgoblin() {
     return Monster(
         "Hobgoblin",
         "A disciplined goblinoid warrior wearing cracked leather armor and a wolf skull helm. He carries a rusted serrated shortsword and a small wooden buckler.",
-        24, 
-        4,   
+        28, 
+        5,   
         0,   
         20,  
         8    
@@ -419,9 +431,9 @@ Monster createGoblinShaman() {
     return Monster(
         "Goblin Shaman",
         "A hunched goblin covered in bone charms and faded red paint. Arcane flows sickly through it's crooked staff.",
-        28, 
+        32, 
         3,  
-        5,  
+        6,  
         25, 
         10  
     );
@@ -430,8 +442,8 @@ Monster createGoblinChief() {
     return Monster(
         "Goblin Chief",
         "A massive goblin wrapped in armor and animal bones. He carries a heavy cleaver stained of bloof from numerous battles.(Do you even lift bro)",
-        48, 
-        7,  
+        58, 
+        8,  
         2,  
         35, 
         20 
@@ -441,8 +453,8 @@ Monster createBogBlight() {
     return Monster(
         "Bog Blight",
         "A plant creature made of mud, roots, and rotting vines. It drags itself forward with wet claws.",
-        30,
-        5,
+        38,
+        6,
         2,
         30,
         10
@@ -453,9 +465,9 @@ Monster createHexboundKnight() {
     return Monster(
         "Hexbound Knight",
         "A silent armored warrior covered in witch marks. Its rusted blade moves as if pulled by invisible strings.",
-        36,
-        6,
-        2,
+        44,
+        7,
+        3,
         35,
         15
     );
@@ -465,9 +477,9 @@ Monster createWillOWisp() {
     return Monster(
         "Will-o'-Wisp",
         "A floating ghost-light that flickers between the trees. Its glow feels warm, but something about it feels hungry.",
-        28,
-        2,
-        7,
+        36,
+        3,
+        8,
         40,
         18
     );
@@ -477,9 +489,9 @@ Monster createMireWitch() {
     return Monster(
         "Mire Witch",
         "An ancient witch draped in moss, feathers, and charms. Her smile widens as if she already knows your name.",
-        60,
-        4,
-        9,
+        80,
+        5,
+        10,
         60,
         25
     );
@@ -488,8 +500,8 @@ Monster createGraveboundSoldier() {
     return Monster(
         "Gravebound Soldier",
         "An undead soldier in cracked armor. Mud and gravewater drip from its shield as it marches forward.",
-        42,
-        7,
+        52,
+        8,
         2,
         45,
         18
@@ -500,8 +512,8 @@ Monster createBoneCollector() {
     return Monster(
         "Bone Collector",
         "A corpse-like creature carrying a sack of bones. Its fingers are long, sharp, and eager.",
-        46,
-        6,
+        58,
+        8,
         4,
         50,
         20
@@ -512,9 +524,9 @@ Monster createMourningWraith() {
     return Monster(
         "Mourning Wraith",
         "A ghostly figure wrapped in torn funeral cloth. Its voice sounds like several people crying at once.",
-        40,
-        3,
-        9,
+        54,
+        4,
+        10,
         55,
         22
     );
@@ -524,9 +536,9 @@ Monster createSealedRevenant() {
     return Monster(
         "Sealed Revenant",
         "A towering undead knight chained to a broken seal. Its armor bears the same symbol Able found with you.",
-        75,
-        9,
-        6,
+        100,
+        11,
+        7,
         75,
         40
     );
