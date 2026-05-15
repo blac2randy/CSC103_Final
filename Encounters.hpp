@@ -401,6 +401,87 @@ void runEncounter(PlayerType& player, vector<Skill> playerSkills, string classNa
 
     battle(player, enemy, playerSkills, className, sceneryLines, observeText);
 }
+// ASCII art for bosses
+void printMireWitchArt() {
+    cout << R"(
+             .- -.
+            /     \
+            |  o  |
+            | / \ |
+            '-. .-'
+             /| |\
+            / | | \
+           |  | |  |
+           |  |_|  |
+           |_______|
+          /    |    \
+         |  ~~~|~~~  |
+         |  (  |  )  |
+         |   ' | '   |
+         |  ,  |  ,  |
+         |  |  |  |  |
+         |  |  |  |  |
+         '--+--+--+--'
+            |     |
+            |     |
+            '-----'
+    )" << endl;
+}
+void printSealedRevenant() {
+    cout << R"(
+            .----------.
+           /            \
+          |   .---._     |
+          |   | ◉ ◉|    |
+          |   |  ⌴  |    |
+          |   '-----'    |
+          |     |||      |
+          |    .===.     |
+          |    | X |     |
+          |    | X |     |
+          |    '==='     |
+          |     | |      |
+          |    /| |\     |
+          |   / | | \    |
+          |   | | | |    |
+          |   | | | |    |
+          |   \     /    |
+          |    \   /     |
+          |     \ /      |
+          |     / \      |
+          |    /   \     |
+          |   /     \    |
+           '--+------+--'
+    )" << endl;
+}
+void printGoblinChief() {
+    cout << R"(
+            .--------.
+           /  ,,,,,,, \
+          |  |     |   |
+          |  |  o  |   |      
+          |  |  ^  |   |
+          |  '-----'   |
+          |   \\\\//   |      
+          |    \\//    |
+          |  .=====.   |
+          |  |  X  |   |      
+          |  |  X  | --|========
+          |  '====='   |       |
+          |   /    \   |       |
+          |  /      \  |  .--------.
+          |  |  ||  |  |  |  ✦✦✦  |
+          |  |  ||  |  |  |  ✦✦✦  |
+          |  |  ||  |  |  |    ✦   |    
+          |  \  ||  /  |   '-------'         
+          |   \    /   |      
+          |    \  /    |   
+          |     \/     |   
+          '------+-----'  
+    )" << endl;
+}
+
+
 
 //List of World one creatures
 Monster createGoblin() {
