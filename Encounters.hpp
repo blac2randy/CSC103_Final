@@ -241,11 +241,25 @@ void battle(PlayerType& player,
                         }
 
                         //Monster's defense scaling off strength
-                        int monsterDefense = enemy.getStrength() / 3;
-                        damage = damage - monsterDefense;
-                        if (damage < 1) {
-                            damage = 1;
-                        }
+                            int monsterDefense = enemy.getStrength() / 3;
+                            damage = damage - monsterDefense;
+
+                            if (damage < 1) {
+                                damage = 1;
+                            }
+
+                            // Enemy has a chance to guard and reduce damage taken.
+                            int guardRoll = rand() % 100 + 1;
+                            bool enemyGuarded = false;
+
+                            if (guardRoll <= 20) {
+                                enemyGuarded = true;
+                                damage = damage * 75 / 100;
+
+                                if (damage < 1) {
+                                    damage = 1;
+                                }
+                            }
 
                         cout << "\nYou use " << chosenSkill.name << "!\n";
 
@@ -256,7 +270,7 @@ void battle(PlayerType& player,
                         << monsterDefense << " damage.\n";
 
                         cout << "You deal " << damage
-                             << " damage to " << enemy.getName() << ".\n";
+                            << " damage to " << enemy.getName() << ".\n";
 
                         enemy.takeDamage(damage);
                     }
@@ -500,7 +514,7 @@ Monster createHobgoblin() {
     return Monster(
         "Hobgoblin",
         "A disciplined goblinoid warrior wearing cracked leather armor and a wolf skull helm. He carries a rusted serrated shortsword and a small wooden buckler.",
-        28, 
+        20, 
         5,   
         0,   
         20,  
@@ -512,7 +526,7 @@ Monster createGoblinShaman() {
     return Monster(
         "Goblin Shaman",
         "A hunched goblin covered in bone charms and faded red paint. Arcane flows sickly through it's crooked staff.",
-        32, 
+        30, 
         3,  
         6,  
         25, 
