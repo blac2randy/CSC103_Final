@@ -1154,7 +1154,7 @@ void finalChoice(string className) {
     int choice;
 
     cout << "\n===== FINAL CHOICE =====\n";
-    slowPrintLine("The Bloodbound Urge wakes inside you.", 20);
+    slowPrintLine("The Urge wakes inside you.", 20);
     slowPrintLine("It does not speak with words.", 20);
     slowPrintLine("It speaks with hunger.", 20);
 
