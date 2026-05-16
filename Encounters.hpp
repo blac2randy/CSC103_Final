@@ -240,14 +240,6 @@ void battle(PlayerType& player,
                             damage = damage * (100 + damageBoostPercent) / 100;
                         }
 
-                        //Monster's defense scaling off strength
-                            int monsterDefense = enemy.getStrength() / 3;
-                            damage = damage - monsterDefense;
-
-                            if (damage < 1) {
-                                damage = 1;
-                            }
-
                             // Enemy has a chance to guard and reduce damage taken.
                             // Guard defense scales off the monster's Strength.
                             int monsterDefense = 0;
@@ -276,29 +268,26 @@ void battle(PlayerType& player,
                         if (enemyGuarded) {
                         cout << enemy.getName() << " guards the attack and blocks "
                         << monsterDefense << " damage.\n";
+                        }
 
                         cout << "You deal " << damage
-                            << " damage to " << enemy.getName() << ".\n";
+                             << " damage to " << enemy.getName() << ".\n";
 
                         enemy.takeDamage(damage);
                     }
-
                     playerSkills[index].currentCooldown = playerSkills[index].cooldown;
                 }
             }
             else {
                 cout << "\nInvalid or locked skill. You hesitate and lose your chance to attack.\n";
             }
-
             turnPassed = true;
         }
-    }
 
         // Choice 2: View Stats
         else if (choice == 2) {
             showBattleStats(player, className);
         }
-
         // Choice 3: View Inventory
         else if (choice == 3) {
             showBattleInventory(player);
